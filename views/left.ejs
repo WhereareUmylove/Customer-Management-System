@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Document</title>
+  <style>
+      body{
+        font-family: "微软雅黑" !important;
+      }
+      .layui-side{
+        position: relative !important;
+        height: 100%;
+      }
+      .layui-nav-tree .layui-nav-item a{
+          height: 60px !important;
+          line-height: 60px !important;
+      }
+      .layui-side-scroll {
+        width: 180px !important;
+      }
+      .layui-nav-tree{
+        width: 180px !important;
+      }
+      .layui-nav-tree .layui-nav-item{
+        width: 100% !important;
+
+      }
+      .layui-nav .layui-nav-item a{
+        color: #a8adaf;
+        padding-right:0 !important; 
+        width: 180px !important;
+        font-size: 16px;
+        padding-left: 20px !important;
+      }
+      .layui-nav .layui-nav-item a span{
+      	margin-left: 5px;
+      }
+
+      .layui-nav-tree .layui-nav-child dd.layui-this, .layui-nav-tree .layui-nav-child dd.layui-this a, .layui-nav-tree .layui-this, .layui-nav-tree .layui-this>a, .layui-nav-tree .layui-this>a:hover {
+     background-color:transparent !important; 
+     color:rgba(255,255,255,.7) !important; 
+}
+  </style>
+  <link rel="stylesheet" href="/css/layui.css">
+  <script src="/layui.js"></script>
+  <script src="/jquery.min.js"></script>
+  <link rel="stylesheet" href="http://at.alicdn.com/t/font_982404_dkdjvdmcc5.css">
+</head>
+<body>
+ 
+<div class="layui-side layui-bg-black">
+    <div class="layui-side-scroll">
+        <div title="菜单缩放" class="kit-side-fold"><i style="padding-left: 20px;cursor: pointer;" class="iconfont icon-caidan-dakai"></i></div>
+        <ul class="layui-nav layui-nav-tree" lay-filter="test">
+            <li class="layui-nav-item layui-nav-itemed">
+                <a class="" href="/customer"><i class="iconfont icon-kehu"></i><span>客户</span></a>
+            </li>
+            <li class="layui-nav-item">
+                <a href="javascript:void(0);"><i class="iconfont icon-gonghaikehu"></i><span>公海</span></a>
+            </li>
+            <li class="layui-nav-item">
+                <a href="/weixin"><i class="iconfont icon-weixin"></i><span>微信</span></a>
+            </li>
+            <li class="layui-nav-item">
+                <a href="/deal"><i class="iconfont icon-qianbao"></i><span>销售机会</span></a>
+            </li>
+            <li class="layui-nav-item">
+                <a href="javascript:void(0);"><i class="iconfont icon-hetong"></i><span>合同</span></a>
+            </li>
+            <li class="layui-nav-item">
+                <a href="/note"><i class="iconfont icon-jilu1"></i><span>跟进记录</span></a>
+            </li>
+            <li class="layui-nav-item">
+                <a href="/statistics/customer"><i class="iconfont icon-tongjifenxi"></i><span>统计分析</span></a>
+            </li>
+            <li class="layui-nav-item">
+                <a href="/worksheet"><i class="iconfont icon-jilu"></i><span>工单</span></a>
+            </li>
+            <li class="layui-nav-item">
+                <a href="/contact"><i class="iconfont icon-lianxiren"></i><span>联系人</span></a>
+            </li>
+            <li class="layui-nav-item">
+                <a href="javascript:void(0);"><i class="iconfont icon-43"></i><span>款项</span></a>
+            </li>
+            <li class="layui-nav-item">
+                <a href="javascript:void(0);"><i class="iconfont icon-shenpi"></i><span>审批</span></a>
+            </li>
+        </ul>
+    </div>
+</div>
+</body>
+</html>
+<script>
+		
+
+	//定义一个标志位
+    //JavaScript代码区域
+    layui.use('element', function(){
+        var element = layui.element;
+
+    });
+    var isShow =true;
+    $('.kit-side-fold').click(function(){
+    	
+        //选择出所有的span，并判断是不是hidden
+        $('.layui-nav-item span').each(function(){
+            if($(this).is(':hidden')){
+                $(this).show();
+            }else{
+                $(this).hide();
+            }
+
+        });
+        //判断isshow的状态
+        if(isShow == true){
+            $('.layui-side.layui-bg-black').width(70); //设置宽度
+            $('.kit-side-fold i').css('font-size','28px');
+            $('.kit-side-fold i').css('class','iconfont icon-caidan-dakai');
+            $('.kit-side-fold').css('width','70px'); //修改图标的位置
+            $('.layui-nav-item a i').css('font-size','28px');
+            $('.layui-nav-item a').css('width','70px');
+            //将footer和body的宽度修改
+            $('.layui-body').css('left', 70+'px');
+            $('.layui-footer').css('left', 70+'px');
+            //将二级导航栏隐藏
+            // $('dd span').each(function(){
+            //     $(this).hide();
+            // });
+            //修改标志位
+            isShow =false;
+        }else{
+            $('.layui-side.layui-bg-black').width(180);  //修改图标的位置
+            $('.kit-side-fold i').css('font-size','16px');
+            $('.kit-side-fold i').css('class','iconfont icon-caidan-shousuo');
+            $('.kit-side-fold').css('width','180px');
+            $('.layui-nav-item a i').css('font-size','16px');
+            $('.layui-nav-item a').css('width','180px');
+            $('.layui-body').css('left', 180+'px');
+            $('.layui-footer').css('left', 180+'px');
+            // $('dd span').each(function(){
+            //     $(this).show();
+            // });
+            isShow =true;
+        }
+ });
+    $('.layui-nav-item:first-of-type a').click(function(){
+    	localStorage.setItem("title","客户一览");
+    })
+    $('.layui-nav-item:nth-of-type(3) a').click(function(){
+    	localStorage.setItem("title","微信一览");
+    })
+    $('.layui-nav-item:nth-of-type(4) a').click(function(){
+    	localStorage.setItem("title","销售机会一览");
+    })
+    $('.layui-nav-item:nth-of-type(6) a').click(function(){
+    	localStorage.setItem("title","跟进记录一览");
+    })
+    $('.layui-nav-item:nth-of-type(7) a').click(function(){
+    	localStorage.setItem("title","统计分析一览");
+    })
+    $('.layui-nav-item:nth-of-type(8) a').click(function(){
+    	localStorage.setItem("title","工单一览");
+    })
+    $('.layui-nav-item:nth-of-type(9) a').click(function(){
+    	localStorage.setItem("title","联系人一览");
+    })
+</script>

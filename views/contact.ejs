@@ -1,0 +1,574 @@
+<<<<<<< .mine
+<div>1</div>=======
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+	<meta charset="UTF-8">
+	<title>联系人</title>
+</head>
+<style>
+	*{
+   	margin: 0;
+   	padding: 0;
+   	box-sizing: border-box;
+   }
+   html{
+   	height: 100%;
+   }
+
+   body{
+       background-color: #F2F3F5;
+       display: flex;
+       height: 100%
+ 	}
+
+.main-left{
+	height: 100%;
+}
+
+
+.main-content{
+	overflow-y:auto;
+	height: 100%;
+	flex: 1;
+
+	display: flex;
+	flex-direction: column;
+}
+.main-header{
+ width: 100%;
+}
+
+.main-body{
+width: 100%;
+flex: 1;
+
+}
+.yyc-body{
+	margin: 20px;
+    padding: 20px;
+    height: 100%;
+    min-height: 600px;
+    margin-bottom: 20px;
+    background-color: #fff;
+    box-shadow: 0 1px 3px rgba(52,63,75,.1);
+    position: relative;
+}
+
+.yyc-body .layui-nav{
+  background-color: white !important;
+  border-bottom: 1px solid #ccc !important;
+  padding: 0;
+}
+.yyc-body .layui-nav .layui-this:after,.yyc-body .layui-nav-bar,.yyc-body .layui-nav-tree .layui-nav-itemed:after{
+	background-color: #3f51b5 !important;
+	height: 3px !important;
+}
+.yyc-body .layui-nav .layui-nav-item a{
+	padding-left: 0 !important;
+}
+
+.yyc-body .layui-nav  li a{
+	color: #76838f  ;
+	text-align: center !important;
+}
+.yyc-body .layui-nav  li a:hover,.yyc-body .layui-nav  li a:focus{
+	color: #3f51b5 !important;
+
+}
+
+.yyc-body .layui-nav .layui-nav-item a {
+	width: 140px !important;
+}
+.yyc-body .layui-nav .layui-this a{
+	color: #3f51b5 !important;
+}
+.yyc-body .layui-nav .layui-btn{
+	padding: 6px 13px;
+    font-size: 12px;
+    line-height: 1.5;
+    border-radius: 2px;
+	position: absolute;
+	right: 10px;
+	bottom: 12px;
+}
+
+.yyc-body .layui-form-select dl dd.layui-this{
+	background-color: transparent;
+	color:#757575;
+}
+::-webkit-scrollbar{width:0px;height:6px;background:#ccc;}
+
+
+.yyc-body .layui-form{
+	margin-top: 30px;
+}
+.yyc-body .layui-form .layui-inline{
+	height: 61px  !important;
+	display: block !important;
+	margin-top: -7.5px !important;
+}
+.yyc-body .layui-form .layui-form-label{
+	width: 100px !important;
+    padding: 5px !important;
+	color:#757575 !important;
+	line-height: 30px !important;
+	margin-right: 10px !important;
+}
+
+.yyc-body .layui-form-select .layui-input{
+	width: 378px !important;
+}
+
+.yyc-span{
+	display:inline-block;
+    margin-right: -5px;
+    margin-left: -5px;
+    line-height: 38px;
+    border-width: 1px 0;
+    border: 1px solid #e4eaec;
+	border-radius: 0;
+	font-size: 14px;
+    font-weight: normal;
+	color: #555;
+    text-align: center;
+    background-color: #eee;
+	width: 1%;
+    white-space: nowrap;
+    vertical-align: middle;
+	height: 38px;
+	width: 50px;
+}
+
+.yyc-body .layui-input:focus,.yyc-body .layui-select:focus,.yyc-body .layui-textarea:focus{
+	border-color: #3f51b5 !important;
+}
+.yyc-body .yyc-caozuo{
+	width: 100%;
+	position: relative;
+	margin-top: 50px;
+	
+}
+
+.yyc-body .yyc-caozuo .layui-btn-group{
+	display: inline-block;
+}
+.yyc-body .yyc-caozuo .yyc-search{
+	display: inline-block;
+	position: absolute;
+	right: 0px;
+}
+
+.yyc-body .layui-table{
+	margin-top: 20px;
+}
+
+.yyc-dialog{
+	display:none;
+	position: absolute;
+	left: 50%;
+	top:50%;
+	transform: translate(-30%,-50%);
+	height: 580px;
+	width: 400px;
+	background-color:#F2F3F5;
+	z-index: 999;
+	border-radius: 10px;
+	box-shadow:1px 3px 3px 5px #555;
+	padding-left: 10px;
+}
+
+
+ </style>
+
+<script src="jquery.min.js"></script>
+<script src="layui.js"></script>
+
+<body>
+
+	<div class="main-left"><%- include("./left.ejs") %></div>
+	<div  class="main-content">
+	<div class="main-header"><%- include("./head.ejs") %></div>
+	
+
+	<div class="main-body">
+
+			<div class="yyc-body">
+
+				<ul class="layui-nav layui-bg-cyan">
+					<li class="layui-nav-item layui-this"><a href="javascript:void(0)">全部联系人</a></li>
+					<li class="layui-nav-item "><a href="javascript:void(0)">我的联系人</a></li>
+					<li class="layui-nav-item"><a href="javascript:void(0)">共享给我的联系人</a></li>
+					<li class="layui-nav-item"><a href="javascript:void(0)">我共享的联系人</a></li>
+					<button class="layui-btn" id="create_1">创建联系人</button>
+				</ul>
+
+
+				<form class="layui-form" action="">
+					<div class="layui-inline">
+						<label class="layui-form-label">所属客户专线</label>
+						<div class="layui-input-inline">
+							<select name="modules" lay-verify="required" lay-search="">
+								<option value="">请输入客户电话检索</option>
+							</select>
+						</div>
+					</div>
+
+					<div class="layui-inline">
+						<label class="layui-form-label">合同索引</label>
+						<div class="layui-input-inline">
+							<select name="modules" lay-verify="required" lay-search="">
+								<option value="">全部合同</option>
+							</select>
+						</div>
+					</div>
+				</form>
+
+
+
+
+
+				<div class="layui-inline" style="margin-top:-37px">
+					<form class="layui-form" action="/contact/searchdate" method="post">
+						<label class="layui-form-label">创建时间</label>
+						<div class="layui-input-inline">
+							<input type="text" class="layui-input" name="create_time" id="test1" placeholder="" autocomplete="off">
+						</div>
+						<span class="yyc-span">到</span>
+						<div class="layui-input-inline">
+							<input type="text" class="layui-input" name="create_time" id="test2" placeholder="" autocomplete="off">
+						</div>
+						<button id="datebtn" lay-submit style="visibility: hidden"></button>
+					</form>
+				</div>
+				</form>
+
+				<div class="yyc-caozuo">
+
+					<div class="layui-btn-group">
+						<button id="create_2" class="layui-btn layui-btn-primary layui-btn-sm"><i class="layui-icon"></i></button>
+						<button id="edit" class="layui-btn layui-btn-primary layui-btn-sm"><i class="layui-icon"></i></button>
+						<button id="remove" class="layui-btn layui-btn-primary layui-btn-sm"><i class="layui-icon"></i></button>
+					</div>
+
+					<div class="yyc-search">
+						<form style="margin-top:-5px" class="layui-form" action="/contact/search" method="post">
+							<input style="width:250px; display:inline-block" type="text" name="leader" placeholder="请输入客户姓名" class="layui-input">
+							<button lay-submit class="layui-btn layui-icon layui-icon-search" style="font-size:20px;margin-top:-3px;margin-left: -4px"></button>
+						</form>
+					</div>
+				</div>
+
+
+				<table class="layui-table" lay-skin="line" id="yyc_tb">
+					<colgroup>
+						<col width="150">
+						<col width="150">
+						<col width="200">
+						<col>
+					</colgroup>
+					<thead>
+						<tr>
+							<th class="layui-form"><input id="owner_all" type="checkbox" lay-skin="primary" lay-filter="owner_all">姓名</th>
+							<th>id</th>
+							<th>职位</th>
+							<th>所属客户</th>
+							<th>创建时间</th>
+							<th>最后时间联系</th>
+							<th>我所共享</th>
+							<th>我被共享</th>
+						</tr>
+					</thead>
+					<tbody>
+						<% for(var i=0;i<data.length;i++){%>
+
+						<tr>
+
+							<td name='leader' class="layui-form"><input class="ownerCost" type="checkbox" lay-skin="primary" lay-filter="owner_one">
+								<%= data[i].leader %>
+							</td>
+							<td name="id">
+								<%= data[i]._id %>
+							</td>
+							<td name='job'>
+								<%=data[i].job%>
+							</td>
+							<td name='username'>
+								<%=data[i].username%>
+							</td>
+							<td name='create_time'>
+								<%=data[i].create_time%>
+							</td>
+							<td name='finish_time'>
+								<%=data[i].finish_time%>
+							</td>
+
+							<% if(data[i].share==true){%>
+							<td name='share'>Yes</td>
+							<%}else{%>
+							<td name="share">No</td>
+							<% }%>
+
+							<% if(data[i].shared==true){%>
+							<td name="shared">Yes</td>
+							<%}else{%>
+							<td name="shared">No</td>
+							<% }%>
+						</tr>
+						<% }%>
+					</tbody>
+				</table>
+
+			</div>
+
+			<div id="yyc_dialog" class="yyc-dialog">
+				<div style="color:red;font-size:26px;position:absolute;right:10px;cursor: pointer" id="yyc_close">x</div>
+				<form class="layui-form" method="post" id="contact_fm" style="margin-top:20px">
+					<div class="layui-form-item">
+						<label>姓名:</label>
+						<input type="text" name="leader" id="leader" autocomplete="off" placeholder="请输入姓名" class="layui-input">
+					</div>
+					<div class="layui-form-item">
+						<label>职位:</label>
+						<input type="text" name="job" id="job" autocomplete="off" placeholder="请输入职位" class="layui-input">
+					</div>
+					<div class="layui-form-item">
+						<label>所属客户:</label>
+						<input type="text" name="username" id="username" autocomplete="off" placeholder="请输入职位" class="layui-input">
+					</div>
+					<div class="layui-form-item">
+						<label>创建时间:</label>
+						<input type="text" name="create_time" id="create_time" lay-verify="date" placeholder="请选择创建时间" autocomplete="off"
+						 class="layui-input">
+					</div>
+
+					<div class="layui-form-item">
+						<label>最后联系时间:</label>
+						<input type="text" name="finish_time" id="finish_time" lay-verify="date" placeholder="请选择最后联系时间" autocomplete="off"
+						 class="layui-input">
+					</div>
+					<div class="layui-form-item">
+						<label style="display:block">我所共享:</label>
+						<input class="yyc_share" type="radio" name="share" value=true title="是">
+						<input class="yyc_share" type="radio" name="share" value=false title="否">
+					</div>
+					<div class="layui-form-item">
+						<label style="display:block">我被共享:</label>
+						<input class="yyc_shared" type="radio" name="shared" value=true title="是">
+						<input class="yyc_shared" type="radio" name="shared" value=false title="否">
+					</div>
+					<div class="layui-form-item">
+						<div class="layui-input-block">
+							<a href="javascript:yyc_submit()" class="layui-btn">立即提交</a>
+							<button type="reset" id="reset" class="layui-btn layui-btn-primary">重置</button>
+						</div>
+					</div>
+					<form>
+			</div>
+
+
+	</div>
+
+</body>
+<script>
+	$('#yyc_tb tr').find('th:eq(1)').hide();
+	$('#yyc_tb tr').find('td:eq(1)').hide();
+	var yyc_close = document.getElementById("yyc_close");
+	var yyc_dialog = document.getElementById("yyc_dialog");
+	var create_1 = document.getElementById("create_1");
+	var create_2 = document.getElementById("create_2");
+	var id = null;
+	var Checkcount = 0;
+
+
+	yyc_close.onclick = function () {
+		yyc_dialog.style.display = "none";
+		$("#reset").click();
+	}
+	create_1.onclick = function () {
+		yyc_dialog.style.display = "block";
+	}
+	create_2.onclick = function () {
+		yyc_dialog.style.display = "block";
+	}
+
+
+
+
+	function yyc_submit() {
+		var obj = {};
+		obj.leader = $('#leader').val();
+		obj.job = $('#job').val();
+		obj.username = $('#username').val();
+		obj.create_time = $('#create_time').val();
+		obj.finish_time = $('#finish_time').val();
+		obj.share = $('input[name="share"]:checked').val();
+		obj.shared = $('input[name="shared"]:checked').val();
+		if (id) {
+			obj.id = id;
+		}
+
+		if (obj.leader == "") {
+			return
+		}
+		if (obj.job == "") {
+			return
+		}
+		if (obj.create_time == "") {
+			return
+		}
+		if (obj.finish_time == "") {
+			return
+		}
+		if (obj.share == "") {
+			return
+		}
+		if (obj.shared == "") {
+			return
+		}
+
+		$.post("/contact/save", obj, function (data) {
+			if (data.code == -1) {
+			}
+			window.location.reload();
+		}, "json")
+
+	}
+
+	layui.use(['form', 'layedit', 'laydate'], function () {
+		var form = layui.form
+			, layer = layui.layer
+			, layedit = layui.layedit
+			, laydate = layui.laydate;
+
+		form.on('checkbox(owner_all)', function (data) {
+			var a = data.elem.checked;
+			if (a == true) {
+				$(".ownerCost").prop("checked", true);
+				form.render('checkbox');
+			} else {
+				$(".ownerCost").prop("checked", false);
+				form.render('checkbox');
+			}
+		});
+		form.on('checkbox(owner_one)', function (data) {
+			var item = $(".ownerCost");
+			var isTrue = true;
+			for (var i = 0; i < item.length; i++) {
+				if (item[i].checked == false) {
+					isTrue = false;
+					$("#owner_all").prop("checked", false);
+					form.render('checkbox');
+				}
+			}
+			if (isTrue) {
+				$("#owner_all").prop("checked", true);
+				form.render('checkbox');
+			}
+		});
+	});
+
+
+	layui.use('laydate', function () {
+		var laydate = layui.laydate;
+		laydate.render({
+			elem: '#test1'
+		});
+		laydate.render({
+			elem: '#test2'
+		});
+		laydate.render({
+			elem: '#create_time'
+		});
+		laydate.render({
+			elem: '#finish_time'
+		});
+	})
+
+
+
+
+
+
+
+	function getMessage() {
+		var Tabobj = $("#yyc_tb");
+		var Check = $("table input[type=checkbox]:checked");
+		Checkcount = Check.length;
+		Check.each(function () {
+			var row = $(this).parent("td").parent("tr");
+			var leader = row.find("[name='leader']").text().replace(/(^\s*)|(\s*$)/g, "");
+			var job = row.find("[name='job']").text().replace(/(^\s*)|(\s*$)/g, "");
+			var username = row.find("[name='username']").text().replace(/(^\s*)|(\s*$)/g, "");
+			var create_time = row.find("[name='create_time']").text().replace(/(^\s*)|(\s*$)/g, "");
+			var finish_time = row.find("[name='finish_time']").text().replace(/(^\s*)|(\s*$)/g, "");
+			var share = row.find("[name='share']").text().replace(/(^\s*)|(\s*$)/g, "");
+			var shared = row.find("[name='shared']").text().replace(/ (^\s*)|(\s*$)/g, "");
+			id = row.find("[name='id']").text().replace(/(^\s*)|(\s*$)/g, "");
+			if (share == 'Yes') {
+				share = 'true';
+			}
+			if (share == "No") {
+				share = 'false';
+			}
+			if (shared == "Yes") {
+				shared = 'true';
+			}
+			if (shared == "No") {
+				shared = 'false'
+			}
+
+			$('#leader').val(leader)
+			$('#username').val(username);
+			$('#job').val(job);
+			$('#create_time').val(create_time);
+			$('#finish_time').val(finish_time);
+		})
+	}
+
+
+
+	$("#edit").click(function () {
+		getMessage();
+		if (Checkcount > 1 || Checkcount < 1) {
+			alert("一次选一个修改");
+		} else {
+			yyc_dialog.style.display = "block";
+		}
+	})
+
+
+	$("#remove").click(function () {
+		var ids = [];
+		var Tabobj = $("#yyc_tb");
+		var Check = $("table input[lay-filter=owner_one]:checked");
+		Checkcount = Check.length;
+		Check.each(function () {
+			var row = $(this).parent("td").parent("tr");
+			var deleteid = row.find("[name='id']").text().replace(/(^\s*)|(\s*$)/g, "");
+			ids.push(deleteid);
+		})
+		$.get("/contact/delete", { ids: ids.join(',') }, function (data) {
+			if (data.code == -1) {
+			} else {
+			}
+		}, 'json');
+		window.location.reload();
+	})
+
+
+	$("body").keydown(function () {
+
+		if ($("#test1").val() && $("#test2").val()) {
+			if (event.keyCode == "13"&&Date.parse($("#test1").val())<Date.parse($("#test2").val())) {
+				$("#datebtn").click();
+			}
+
+		}
+	})
+
+
+</script>
+
+</html>>>>>>>> .r56

@@ -1,0 +1,330 @@
+<!DOCTYPE html>
+<html lang="en">
+
+	<head>
+		<meta charset="UTF-8">
+		<title>微信</title>
+		<link rel="stylesheet" type="text/css" href="/css/layui.css" />
+		<script src="/layui.js"></script>
+		<script src="/jquery.min.js"></script>
+	</head>
+	<style>
+		* {
+			margin: 0;
+			padding: 0;
+			box-sizing: border-box;
+		}
+		
+		html {
+			height: 100%;
+		}
+		
+		body {
+			background-color: #F2F3F5;
+			display: flex;
+			height: 100%
+		}
+		
+		.main-left {
+			height: 100%;
+		}
+		
+		.main-content {
+			overflow-y: auto;
+			height: 100%;
+			flex: 1;
+			display: flex;
+			flex-direction: column;
+		}
+		
+		.main-header {
+			width: 100%;
+		}
+		
+		.main-body {
+			width: 100%;
+			flex: 1;
+		}
+		/** 滚动条样式美化  */
+		
+		::-webkit-scrollbar {
+			width: 0px;
+			height: 6px;
+			background: #ccc;
+		}
+		
+		#dao {
+			width: 38px;
+			height: 38px;
+			background-color: #EEEEEE;
+			display: inline-block;
+		}
+		
+		#dao {
+			text-align: center;
+			height: 38px;
+			line-height: 38px;
+		}
+		
+		#delete {
+			position: relative;
+			left: 40px;
+			margin-top: 6px;
+			background-color: #EEEEEE;
+		}
+		
+		.pd {
+			padding-top: 10px;
+		}
+		
+		.w-container {
+			width: 96%;
+			margin: 0 auto;
+		}
+		
+		.wcontainer {
+			border-left: 5px solid #F2A654;
+			border-top: 1px solid #EEEEEE;
+			border-bottom: 1px solid #EEEEEE;
+			border-right: 1px solid #EEEEEE;
+			border-radius: 6px;
+		}
+		
+		.winfo {
+			padding-left: 15px;
+		}
+		
+		.winfo ul li {
+			height: 35px;
+			line-height: 35px;
+		}
+		.hidden{
+			display:none;
+		}
+	</style>
+
+	<body>
+		<div class="main-left">
+			<%- include("./left.ejs") %>
+		</div>
+		<div class="main-content">
+			<div class="main-header">
+				<%- include("./head.ejs") %>
+			</div>
+			<div class="main-body">
+				<div class="w-container">
+					<div>
+						<form class="layui-form pd" action="">
+							<div class="layui-inline">
+								<label class="layui-form-label" style="width: 100px;">所属客户</label>
+									<div class="layui-inline">
+									<select name="kehu" lay-verify="required" lay-filter="kehu" id="kehu">
+										<option value="">全部</option>
+									</select>
+								</div>
+							</div>
+							<div class="layui-inline">
+								<label class="layui-form-label" style="width: 100px;">创建时间</label>
+								<div class="layui-input-inline">
+									<input type="text" name="date" id="date" lay-verify="date" placeholder="" autocomplete="off" class="layui-input">
+								</div>
+								<label id="dao">到</label>
+								<div class="layui-input-inline">
+									<input type="text" name="date" id="date1" lay-verify="date" placeholder="" autocomplete="off" class="layui-input">
+								</div>
+							</div>
+							<div class="layui-inline">
+								<label class="layui-form-label" style="width: 100px;">所属员工</label>
+								<div class="layui-inline">
+									<select name="employee" lay-verify="required" lay-filter="employee" id="yuangong">
+										<option value="">全部</option>
+									</select>
+								</div>
+							</div>
+							<div class="pd">
+								<label class="layui-form-label" style="width: 100px;">关键字</label>
+								<div class="layui-input-inline">
+									<input type="text" autocomplete="off" class="layui-input">
+								</div>
+								<button class="layui-btn layui-btn-normal">搜索</button>
+							</div>
+							<a class="layui-btn layui-btn-primary layui-btn-sm" id="delete">
+                                <i class="layui-icon">&#xe640;</i>删除
+                            </a>
+						</form>
+						<div class="tables">
+							<table class="layui-table" id="test">
+								<thead>
+									<tr>
+										<th class="layui-form"><input type="checkbox"  id="cAll" lay-skin="primary" lay-filter="cAll">编号</th>
+										<th>微信号</th>
+										<th>客户</th>
+										<th>联系人</th>
+										<th>性别</th>
+										<th>手机号码</th>
+										<th>地区</th>
+										<th>所属微信</th>
+										<th>所属员工</th>
+										<th>创建时间</th>
+									</tr>
+								</thead>
+								<tbody id="tbodyTd">
+									<% for(var i = 0;i<data.length;i++){ %>
+									<tr id="myid">
+										<td class="layui-form"><input type="checkbox" class="ownerCost" id="cOne" lay-skin="primary" lay-filter="cOne"><%= i+1%></td>
+										<td id="deleteName"><%= data[i].weixinname %></td>
+										<td><%= data[i].custome %></td>
+										<td><%= data[i].username %></td>
+										<td><%= data[i].sex %></td>
+										<td><%= data[i].address %></td>
+										<td><%= data[i].weixin %></td>
+										<td><%= data[i].employee %></td>
+										<td><%= data[i].creatTime %></td>
+									</tr>
+									<% } %>
+								</tbody>
+							</table>
+						</div>
+						<div class="wcontainer">
+							<div class="winfo">
+								<ul>
+									<li>
+										<h2 style="color:#F2A654">提示</h2></li>
+									<li>1.安装企客宝微信坐席后，即可同步微信好友信息以及会话统计</li>
+									<li>2.企客宝微信坐席仅支持安卓手机</li>
+								</ul>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</body>
+<script>
+		function loadSeslectOptions(selectId,gridId,id){
+		    var pushss=[];
+			var temp=[];
+			var home=document.getElementById(selectId);
+			var optionaa = document.getElementById(gridId).children;
+			for(var i = 0; i < optionaa.length; i++ ){
+				
+				pushss.push(optionaa[i].children[id].innerHTML);
+			}
+		
+			for(var j = 0; j < pushss.length; j++){
+		        if(temp.indexOf(pushss[j]) == -1){
+		        	
+		            temp.push(pushss[j]);
+		        }
+		      }
+			for (var p = 0; p < temp.length; p++ ) {
+				var option=document.createElement("option");
+				option.innerHTML=temp[p];
+				home.appendChild(option);
+		}
+}
+	</script>
+	<script>
+		loadSeslectOptions('yuangong','tbodyTd',7);
+		loadSeslectOptions('kehu','tbodyTd',2);
+		
+		layui.use(['form', 'layedit', 'laydate','table'], function() {
+			var form = layui.form,
+				layer = layui.layer,
+				laydate = layui.laydate,
+				table = layui.table;
+
+			//日期
+			laydate.render({
+				elem: '#date'
+			});
+			laydate.render({
+				elem: '#date1'
+			});
+
+			//监听指定开关
+			form.on('switch(switchTest)', function(data) {
+				layer.msg('开关checked：' + (this.checked ? 'true' : 'false'), {
+					offset: '6px'
+				});
+				layer.tips('温馨提示：请注意开关状态的文字可以随意定义，而不仅仅是ON|OFF', data.othis)
+			});
+
+			//表单初始赋值
+			form.val('example', {
+				"interest": 1,
+				"like[write]": true //复选框选中状态
+			});
+			
+			
+			
+			form.on('checkbox(cAll)', function(data) {
+				var a = data.elem.checked;
+				if(a == true) {
+					$(".ownerCost").prop("checked", true);
+					form.render('checkbox');
+					
+					
+				} else {
+					$(".ownerCost").prop("checked", false);
+					form.render('checkbox');
+				}
+			});	
+			form.on('checkbox(cOne)', function(data) {
+				var item = $(".ownerCost");
+				var isTrue = true;
+				for(var i = 0; i < item.length; i++) {
+					if(item[i].checked == false) {
+						isTrue = false;
+						$("#cAll").prop("checked", false);
+						form.render('checkbox');
+					}
+				}
+				if(isTrue) {
+					$("#cAll").prop("checked", true);
+					form.render('checkbox');
+				};
+
+              	if(data.elem.checked == true){
+				  	 var myid = document.getElementById("myid");
+				  	 var Delete = document.getElementById("delete");
+				  	 Delete.onclick = function(){
+				  	 	var parms = data.elem.parentElement.parentElement.children[1].innerText;
+				  	 	$.post("/weixin/deleteInfo",{deleteName:parms},function(data){});
+				  	 	history.go(0);
+				   } 
+			    }
+			 });
+			 
+			 form.on('select(employee)', function(data) {
+				var tbodyTd = document.getElementById("tbodyTd").children;				
+				for(var i = 0; i < tbodyTd.length; i++) {
+					if(data.value == "") {
+						tbodyTd[i].classList.remove("hidden");
+					}else if(tbodyTd[i].children[7].innerHTML == data.value){
+						tbodyTd[i].classList.remove("hidden");
+                        console.log(tbodyTd[i]);
+					} else {
+						tbodyTd[i].classList.add("hidden");
+					}
+
+				}
+			});
+			
+			 form.on('select(kehu)', function(data) {
+				var tbodyTd = document.getElementById("tbodyTd").children;				
+				for(var i = 0; i < tbodyTd.length; i++) {
+					if(data.value == "") {
+						tbodyTd[i].classList.remove("hidden");
+					}else if(tbodyTd[i].children[2].innerHTML == data.value){
+						tbodyTd[i].classList.remove("hidden");
+                        console.log(tbodyTd[i]);
+					} else {
+						tbodyTd[i].classList.add("hidden");
+					}
+				}
+			});
+		})
+	</script>
+	
+</html>

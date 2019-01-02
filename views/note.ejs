@@ -1,0 +1,223 @@
+<!DOCTYPE html>
+<html lang="en">
+
+	<head>
+		<meta charset="UTF-8">
+		<title>跟进记录</title>
+		<script src="/common.js"></script>
+	</head>
+	<style>
+		* {
+			margin: 0;
+			padding: 0;
+			box-sizing: border-box;
+		}
+		
+		html {
+			height: 100%;
+		}
+		
+		body {
+			background-color: #F2F3F5;
+			display: flex;
+			height: 100%;
+		}
+		
+		.main-left {
+			height: 100%;
+		}
+		
+		.main-content {
+			overflow-y: auto;
+			height: 100%;
+			flex: 1;
+			display: flex;
+			flex-direction: column;
+		}
+		
+		.main-header {
+			width: 100%;
+		}
+		
+		.main-body {
+			width: 100%;
+			flex: 1;
+			
+		}
+		
+		.container {
+			margin-left: 10px ;
+			margin-top: 10px ;
+			position: relative;
+			
+		}
+		
+		.aa {
+			padding-left: 0px !important;
+			padding-right: 0px !important;
+		}
+		/** 滚动条样式美化  */
+		
+		::-webkit-scrollbar {
+			width: 0px;
+			height: 6px;
+			background: #ccc;
+		}
+		.hidden{
+			display: none;
+		}
+	</style>
+
+	<body>
+		<div class="main-left"><%- include("./left.ejs") %></div>
+		<div class="main-content">
+			<div class="main-header"><%- include("./head.ejs") %></div>
+			<div class="main-body">
+				<div class="container">
+					<div class="forma">
+						<form action="" class="layui-form">
+							<div class="layui-form-item">
+								<label class="layui-form-label aa">所属客户</label>
+								<div class="layui-inline">
+									<select name="company" lay-verify="required" lay-filter="company" id="company">
+										<option value="">全部</option>
+									</select>
+								</div>
+									
+								<div class="layui-inline">
+									<label class="layui-form-label aa">跟进时间</label>
+									<div class="layui-input-inline" style="width: 100px;">
+										<input type="text" class="layui-input" id="time1" required lay-verify="required">
+									</div>
+									<div class="layui-form-mid">到</div>
+									<div class="layui-input-inline" style="width: 100px;">
+										<input type="text" class="layui-input" id="time2" required lay-verify="required">
+									</div>
+								</div>
+								<div class="layui-inline">
+									<label class="layui-form-label aa">跟进人</label>
+									<div class="layui-inline">
+									<select name="constomerss" lay-verify="required" lay-filter="constomerss" id="home">
+										<option value="">全部</option>
+									</select>
+								</div>
+								</div>
+							</div>
+						</form>
+					</div>
+					<div class="tableb">
+						<table class="layui-table">
+							<colgroup>
+								<col width="150">
+								<col width="200">
+								<col>
+							</colgroup>
+							<thead>
+								<tr>
+									<th>编号</th>
+									<th>客户名称</th>
+									<th>备注对象</th>
+									<th>跟进时间</th>
+									<th>跟进员工</th>
+									<th>跟进内容</th>
+								</tr>
+							</thead>
+							<tbody id="godv">
+								
+								<%for(var i=0;i<data.length;i++){%>
+									<tr>
+										<td><%=i+1%></td>
+										<td><%=data[i].customerss%></td>
+										<td><%=data[i].remarks%></td>
+										<td><%=data[i].processtime%></td>
+										<td><%=data[i].employee%></td>
+										<td><%=data[i].content%></td>
+									</tr>
+								<%}%>
+							</tbody>
+						</table>
+						
+					</div>
+				</div>
+			</div>
+		</div>	
+</body>
+<script>
+
+loadSeslectOptions('home','godv',4);
+loadSeslectOptions('company','godv',1);		
+	
+	layui.use(['form', 'layedit', 'laydate'], function() {
+			var form = layui.form;
+			var layer = layui.layer;
+			var layedit = layui.layedit;
+			var laydate = layui.laydate;
+			
+		    laydate.render({
+			    elem: '#time1',
+			    done: function(value){
+			    	var aa=Date.parse(value);
+			    	
+			    	$.post("/note/finddate",{time:aa},function(res){
+			    		var html="";
+			    		for(var i=0;i<res.data.length;i++){
+			    		 	html+="<tr>";
+			    			html+="<td>"+(i+1)+"</td>";
+			    		  	html+="<td>"+res.data[i].content+"</td>";
+			    			html+="<td>"+res.data[i].customerss+"</td>";
+			    			html+="<td>"+res.data[i].processtime+"</td>";
+			    		 	html+="<td>"+res.data[i].employee+"</td>";
+			    		 	html+="<td>"+res.data[i].remarks+"</td>";
+			    		 	html+="</tr>";
+			    		}
+			    		
+			    		$("#godv").html(html);
+			    	});
+			    }
+			});
+			laydate.render({
+			    elem: '#time2',
+			    done: function(value){
+				    var aa=Date.parse(value);
+				    
+				 	var godv = document.getElementById("godv").children;
+				   	for(var i = 0; i < godv.length; i++) {
+				   		
+				   		if(Date.parse(godv[i].children[3].innerHTML)<= aa) {
+							godv[i].classList.remove("hidden");
+						} else {
+							godv[i].classList.add("hidden");
+						}
+					}
+				   }
+			  });
+			 
+			
+			form.on('select(constomerss)', function(data) {
+				var godv = document.getElementById("godv").children;
+				for(var i = 0; i < godv.length; i++) {
+					if(data.value == "") {
+						godv[i].classList.remove("hidden");
+					} else if(godv[i].children[4].innerHTML == data.value) {
+						godv[i].classList.remove("hidden");
+					} else {
+						godv[i].classList.add("hidden");
+					}
+				}
+			});
+			form.on('select(company)', function(data) {
+				var godv = document.getElementById("godv").children;
+				for(var i = 0; i < godv.length; i++) {
+					if(data.value == "") {
+						godv[i].classList.remove("hidden");
+					} else if(godv[i].children[1].innerHTML == data.value) {
+						godv[i].classList.remove("hidden");
+					} else {
+						godv[i].classList.add("hidden");
+					}
+				}
+			});
+		
+		});	
+</script>
+</html>

@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Document</title>
+	<link rel="stylesheet" href="http://at.alicdn.com/t/font_982590_3mtaz1j4vmy.css">
+	<script src="/jquery.min.js"></script>
+</head>
+<style>
+*{
+	margin:0;
+	padding:0;
+}
+.header{
+	background-color: white;
+	width: 100%;
+	height:60px;
+	border-bottom: 1px solid #eaeaea;
+	box-sizing: border-box;
+	display: flex;
+	position: relative;
+
+}
+
+.laber{
+
+   width:150px;
+   height: 58px;
+   line-height: 58px; 
+   box-sizing: border-box;
+   text-align: center;
+}
+@media screen and (max-width: 768px) {
+	.laber {
+		display: none;
+    }
+}
+.headerInput{ 
+	flex: 1;
+	position: relative;
+}
+.input{
+   
+	height: 58px;
+    line-height: 58px; 
+    padding-left: 35px;
+    border:none;
+    box-sizing: border-box;
+    font-size: 16px;
+    outline: none;
+}
+
+.button{
+   width:210px;
+   box-sizing: border-box;
+   text-align: center;
+   line-height: 58px;
+   
+}
+.button i{
+	display: inline-block;
+	width: 33%;
+	height: 100%;
+    font-size: 20px;
+    color:#269;
+
+} 
+.button .icon-ren{
+	color: black;
+	font-size: 24px;
+}
+.button .icon-ren:hover{
+ color: black;
+}
+.button i:hover{
+	 background-color:#eaeaea; 
+	 color:#24B;
+}
+
+.icon-sousuo{
+	position:absolute;
+	top:18px;
+	left:10px;
+	font-size: 22px;
+}
+.ren{
+	background-color: white;
+	z-index: 999;
+   display: none;
+   position: absolute;
+   right:0px;
+   top:60px;
+   border:1px solid #ccc;
+   font-size: 14px;
+   border-radius: 4px;
+    }
+    .ren ul{
+    	list-style: none;
+    }
+    .ren ul li{
+    	padding: 10px 20px;
+    }
+    .ren ul li:last-child{
+    	border-top:1px solid #ccc;
+    	height: 45px;
+    	line-height: 30px;
+    }
+    .ren ul li:hover{
+    	background-color: #eaeaea;
+    }
+    .ren ul li i{
+      padding-right: 15px;
+      font-size: 14px
+    }
+    a{
+    	text-decoration: none;
+    }
+</style>
+<body>
+	<div class="header">
+		<label class="laber"></label>
+		<div class="headerInput">
+		<input class="input" type="text" placeholder="输入客户名快速检索...">
+	    <i class="iconfont icon-sousuo"></i>
+        </div>
+	<div class="button"><i class="iconfont icon-dianhua"></i><i class="iconfont icon-lingdang"></i><i class="iconfont icon-ren" ></i>
+    </div>
+    <div class="ren">
+    	<ul>
+    		<li><i class="iconfont icon-ren1"></i>个人信息</li>
+    		<li><i class="iconfont icon-nav-system-set"></i>系统设置</li>
+    		<li><i class="iconfont icon-bangzhu"></i>在线助手</li>
+    		<li><i class="iconfont icon-app1"></i>下载手机	App</li>
+    		<li><a href="/login" class="exit"><i class="iconfont icon-tuichu-"></i>退出</a></li>
+    	</ul>
+    	<div></div>
+    </div>
+</div>
+</body>
+
+</html>
+<script>
+	var title="当前页面";
+	
+	
+if(localStorage.getItem("title")){
+	title=localStorage.getItem("title");
+	$(".laber").html(title);
+}
+
+
+
+
+	$(".icon-ren").click(function(){
+		if($(".ren").css("display")=="none")
+		{$(".ren").css("display","block");}
+	else{
+		$(".ren").css("display","none")
+	}
+	})
+	
+	$(".exit").click(function(req,res){
+		sessionStorage.removeItem("phone");
+		sessionStorage.removeItem("password");
+	})
+</script>

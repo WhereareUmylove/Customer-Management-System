@@ -1,0 +1,837 @@
+<!DOCTYPE html>
+<html lang="en">
+
+	<head>
+		<meta charset="UTF-8">
+		<title>工单</title>
+		<link rel="stylesheet" href="../css/layui.css" media="all">
+	</head>
+
+	<style>
+		* {
+			margin: 0;
+			padding: 0;
+			box-sizing: border-box;
+		}
+		
+		html {
+			height: 100%;
+		}
+		
+		body {
+			background-color: #F2F3F5;
+			display: flex;
+			height: 100%
+		}
+		
+		.main-left {
+			height: 100%;
+		}
+		
+		.main-content {
+			overflow-y: auto;
+			height: 100%;
+			flex: 1;
+			display: flex;
+			flex-direction: column;
+		}
+		
+		.main-header {
+			width: 100%;
+		}
+		
+		.main-body {
+			width: 100%;
+			flex: 1;
+			padding: 20px;
+			margin: 20px;
+			background-color: #fff;
+			display: flex;
+		}
+		
+		.t_left {
+			width: 251px;
+			border-right: 1px solid #C2C2C2;
+			box-sizing: border-box;
+		}
+		
+		.aside-section {
+			width: 250px;
+		}
+		
+		.aside-section>h2 {
+			width: 250px;
+			height: 41px;
+			line-height: 41px;
+		}
+		
+		.t_list {
+			width: 250px;
+			height: 295px;
+			margin-top: 20px;
+			box-sizing: border-box;
+		}
+		
+		.t_list>a:hover {
+			background-color: red;
+			color: white;
+		}
+		
+		.list-item {
+			width: 250px;
+			height: 48px;
+			display: inline-block;
+			padding: 13px 30px;
+			margin-bottom: 1px;
+			white-space: nowrap;
+		}
+		
+		.t_right {
+			padding: 20px 0 0 40px;
+			flex: 1;
+			display: flex;
+		}
+		
+		.page-main-action {
+			width: 1022px;
+			height: 50px;
+		}
+		
+		.page-main-action>.layui-input {
+			width: 25%;
+		}
+		
+		.layui-input-inline {
+			width: 111px;
+		}
+		/** 滚动条样式美化  */
+		
+		::-webkit-scrollbar {
+			width: 0px;
+			height: 6px;
+			background: #ccc;
+		}
+		
+		.form-label {
+			float: left;
+			display: block;
+			padding: 0px;
+			width: 65px;
+			font-weight: 400;
+			line-height: 35px;
+			text-align: center;
+		}
+		
+		.btn-success {
+			display: inline-block;
+			height: 38px;
+			line-height: 38px;
+			padding: 0 10px;
+			background-color: green;
+			color: #fff;
+			white-space: nowrap;
+			text-align: center;
+			font-size: 12px;
+			border: none;
+			border-radius: 2px;
+			cursor: pointer;
+		}
+		
+		#btn2 {
+			margin-left: 200px;
+			background-color: #10e610;
+		}
+		
+		.page-list {
+			width: 1050px;
+			height: 600px;
+			/*	overflow-x: hidden;*/
+			margin-top: 100px;
+			/*position: fixed;*/
+		}
+		
+		.table>thead>th {
+			font-weight: bold;
+		}
+		
+		tbody>tr {
+			width: 950px;
+			height: 40px;
+			border-top: 1px solid gainsboro;
+		}
+		
+		tbody>tr>td {
+			text-align: left;
+		}
+		
+		tr>td>button {
+			background-color: #f13939;
+			color: white;
+			width: 67px;
+			height: 22px;
+			cursor: pointer;
+			border: none;
+		}
+		
+		table .cell-80 {
+			width: 80px;
+		}
+		
+		table .cell-100 {
+			width: 100px;
+		}
+		
+		table .cell-160 {
+			width: 168px;
+		}
+		
+		table .cell-200 {
+			width: 200px;
+		}
+		
+		.layui-layer {
+			width: 900px;
+			height: 100%;
+		}
+		
+		.layui-layer-t {
+			padding: 0 80px 0 20px;
+			height: 116px;
+			line-height: 42px;
+			border-bottom: 1px solid #eee;
+			font-size: 14px;
+			color: #333;
+			overflow: hidden;
+			background-color: #F8F8F8;
+			border-radius: 2px 2px 0 0;
+		}
+		
+		.btn-closed {
+			width: 30px;
+			height: 30px;
+			margin-left: 543px;
+			background-color: #F8F8F8;
+			border: none;
+		}
+		
+		.t_left ul li {
+			display: block;
+		}
+		
+		.layui-tab-content div:nth-child(n) {
+			position: relative;
+			right: -300px;
+			width: 1000px;
+			height: 520px;
+			/*background: deeppink;*/
+		}
+	</style>
+
+	<body>
+		<div class="main-left">
+			<%- include("./left.ejs") %>
+		</div>
+		<div class="main-content">
+			<div class="main-header">
+				<%- include("./head.ejs") %>
+			</div>
+			<div class="main-body">
+				<div class="t_left">
+					<section class="aside-section">
+						<h2 class="aside-title">工单一览</h2>
+						<div class="layui-tab layui-tab-brief" lay-filter="docDemoTabBrief">
+							<ul class="layui-tab-title twf">
+								<li class="layui-this">全部的工单</li>
+								<li>我提交的工单</li>
+								<li>我受理中的工单</li>
+								<li>我的已完结工单</li>
+								<li>我回复过的工单</li>
+								<li>已分配未受理的工单</li>
+							</ul>
+							<div class="layui-tab-content">
+								<div class="layui-tab-item layui-show">
+									<table class="layui-table">
+										<colgroup>
+											<col width="150">
+											<col width="200">
+											<col>
+										</colgroup>
+										<thead>
+											<tr>
+												<th>编号</th>
+												<th>标题</th>
+												<th>状态</th>
+												<th>发起人</th>
+												<th>创建时间</th>
+												<th>受理时间</th>
+												<th>操作</th>
+											</tr>
+										</thead>
+										<tbody >
+
+											<%for(var i=0;i<data.length;i++){%>
+											<tr>
+												<td><%=i+1%></td>
+												<td><%=data[i].title%></td>
+												<td><%=data[i].statue%></td>
+												<td><%=data[i].postpeople%></td>
+												<td><%=data[i].createtime%></td>
+												<td><%=data[i].dealtime%></td>
+												<!--<td>
+													<button type="button" class="btn btn-success">删除工单</button>
+												</td>-->
+											</tr>
+											<%}%>
+										</tbody>
+									</table>
+								</div>
+								<div class="layui-tab-item">
+									<table class="layui-table">
+										<colgroup>
+											<col width="150">
+											<col width="200">
+											<col>
+										</colgroup>
+										<thead>
+											<tr>
+												<th>编号</th>
+												<th>标题</th>
+												<th>状态</th>
+												<th>发起人</th>
+												<th>创建时间</th>
+												<th>受理时间</th>
+												<th>操作</th>
+											</tr>
+										</thead>
+										<tbody >
+
+											<%for(var i=0;i<data.length;i++){%>
+											<tr>
+												<td><%=i+1%></td>
+												<td><%=data[i].title%></td>
+												<td><%=data[i].statue%></td>
+												<td><%=data[i].postpeople%></td>
+												<td><%=data[i].createtime%></td>
+												<td><%=data[i].dealtime%></td>
+											</tr>
+											<%}%>
+										</tbody>
+									</table>
+								</div>
+								<div class="layui-tab-item">
+									<table class="layui-table">
+										<colgroup>
+											<col width="150">
+											<col width="200">
+											<col>
+										</colgroup>
+										<thead>
+											<tr>
+												<th>编号</th>
+												<th>标题</th>
+												<th>状态</th>
+												<th>发起人</th>
+												<th>创建时间</th>
+												<th>受理时间</th>
+												<th>操作</th>
+											</tr>
+										</thead>
+										<tbody >
+
+											<%for(var i=0;i<data.length;i++){%>
+											<tr>
+												<td><%=i+1%></td>
+												<td><%=data[i].title%></td>
+												<td><%=data[i].statue%></td>
+												<td><%=data[i].postpeople%></td>
+												<td><%=data[i].createtime%></td>
+												<td><%=data[i].dealtime%></td>
+											</tr>
+											<%}%>
+										</tbody>
+									</table>
+								</div>
+								<div class="layui-tab-item">
+									<table class="layui-table">
+										<colgroup>
+											<col width="150">
+											<col width="200">
+											<col>
+										</colgroup>
+										<thead>
+											<tr>
+												<th>编号</th>
+												<th>标题</th>
+												<th>状态</th>
+												<th>发起人</th>
+												<th>创建时间</th>
+												<th>受理时间</th>
+												<th>操作</th>
+											</tr>
+										</thead>
+										<tbody >
+
+											<%for(var i=0;i<data.length;i++){%>
+											<tr>
+												<td><%=i+1%></td>
+												<td><%=data[i].title%></td>
+												<td><%=data[i].statue%></td>
+												<td><%=data[i].postpeople%></td>
+												<td><%=data[i].createtime%></td>
+												<td><%=data[i].dealtime%></td>
+											</tr>
+											<%}%>
+										</tbody>
+									</table>
+								</div>
+								<div class="layui-tab-item">
+									<table class="layui-table">
+										<colgroup>
+											<col width="150">
+											<col width="200">
+											<col>
+										</colgroup>
+										<thead>
+											<tr>
+												<th>编号</th>
+												<th>标题</th>
+												<th>状态</th>
+												<th>发起人</th>
+												<th>创建时间</th>
+												<th>受理时间</th>
+												<th>操作</th>
+											</tr>
+										</thead>
+										<tbody >
+
+											<%for(var i=0;i<data.length;i++){%>
+											<tr>
+												<td><%=i+1%></td>
+												<td><%=data[i].title%></td>
+												<td><%=data[i].statue%></td>
+												<td><%=data[i].postpeople%></td>
+												<td><%=data[i].createtime%></td>
+												<td><%=data[i].dealtime%></td>
+											</tr>
+											<%}%>
+										</tbody>
+									</table>
+								</div>
+								<div class="layui-tab-item">
+									<table class="layui-table">
+										<colgroup>
+											<col width="150">
+											<col width="200">
+											<col>
+										</colgroup>
+										<thead>
+											<tr>
+												<th>编号</th>
+												<th>标题</th>
+												<th>状态</th>
+												<th>发起人</th>
+												<th>创建时间</th>
+												<th>受理时间</th>
+												<th>操作</th>
+											</tr>
+										</thead>
+										<tbody >
+
+											<%for(var i=0;i<data.length;i++){%>
+											<tr>
+												<td><%=i+1%></td>
+												<td><%=data[i].title%></td>
+												<td><%=data[i].statue%></td>
+												<td><%=data[i].postpeople%></td>
+												<td><%=data[i].createtime%></td>
+												<td><%=data[i].dealtime%></td>
+											</tr>
+											<%}%>
+										</tbody>
+									</table>
+								</div>
+
+							</div>
+						</div>
+					</section>
+				</div>
+				<div class="t_right">
+					<div class="page-main-action">
+						<div class="layui-form">
+							<div class="layui-form-item">
+								<label class="form-label">标题</label>
+								<div class="layui-input-inline">
+									<input type="text" class="layui-input">
+								</div>
+
+								<div class="layui-inline">
+									<label class="form-label">日期范围</label>
+									<div class="layui-input-inline">
+										<input type="text" class="layui-input" id="test6" placeholder="到">
+									</div>
+								</div>
+								<button type="submit" class="btn btn-success" id="btn1">搜索</button>
+								<button type="button" class="btn btn-success" id="btn2">创建工单</button>
+							</div>
+						</div>
+					</div>
+
+				</div>
+			</div>
+			<div class="layui-layer layui-layer-page" id="layui-layer4" type="page" times="4" showtime="0" contype="string" style="z-index: 999; top: 1px; left: 700px;display: none;">
+				<div class="layui-layer-t">
+					<h5>标题</h5>
+					<span>2018-12-26 10:29:14</span>
+					<button type="button" class="btn-closed" id="btn-close">X</button>
+				</div>
+				<div id="layerDemor" class="layui-layer-content">
+					<div style="padding: 20px 100px;">
+						<div class="layui-form-item layui-form-text">
+							<div class="layui-input-block">
+								<textarea name="desc" placeholder="请填写您的回复内容" class="layui-textarea" style="width: 437px;height: 145px;"></textarea>
+							</div>
+						</div>
+					</div>
+				</div>
+				<span class="layui-layer-setwin">
+				<a  class="layui-layer-ico layui-layer-close" href="javascript:;"></a>
+			</span>
+				<div class="layui-layer-btn layui-layer-btn-c" style="width: 1212px;">
+					<a class="layui-layer-btn0">回复工单</a>
+				</div>
+				<span class="layui-layer-resize"></span>
+
+				<div class="layui-tab">
+					<ul class="layui-tab-title">
+						<li class="layui-this" style="color: blue;">回复内容</li>
+						<li>工单流程</li>
+					</ul>
+					<div class="layui-tab-content">
+						<div class="layui-tab-item layui-show">
+							没有添加任何跟进记录
+						</div>
+						<div class="layui-tab-item">
+							还没有处理该工单
+						</div>
+
+					</div>
+				</div>
+			</div>
+
+			<div class="layui-layer layui-layer-page" id="layui-layer6" type="page" times="6" showtime="0" contype="string" style="z-index: 998; top: 138.5px; left: 500px;display: none;">
+				<div class="layui-layer-title">创建工单</div>
+				<div id="layerDemoauto" class="layui-layer-content">
+					<div>
+						<form class="layui-form" action="">
+										<div class="layui-form-item">
+											<label class="layui-form-label" style="width:100px;">工单标题</label> 
+											<div class="layui-input-block">
+												<input type="text" required lay-verify="required" class="layui-input" name="title">
+											</div>
+										</div>
+										<div class="layui-form-item">
+											<label class="layui-form-label" style="width:100px;">工单模板</label>
+											<div class="layui-input-block">
+												<input type="text" lay-verify="required" placeholder="模板一" class="layui-input" name="statue">
+											</div>
+										</div>
+										<div class="layui-form-item">
+											<label class="layui-form-label" style="width:100px;">关联客户</label>
+											<div class="layui-input-block">
+												<select onchange="xxx()" id="customerStyle" require lay-verify="required" lay-filter="addCustomer" name="postpeople">
+													<option value="">全部</option>
+													<option value="未分类">未分类</option>
+													<option value="A">A（重点客户）</option>
+													<option value="B">B（普通客户）</option>
+													<option value="C">C（低价值客户）</option>
+												</select>
+											</div>
+										</div>
+										
+										<div class="layui-form-item">
+											<label class="layui-form-label" style="width:100px;">创建时间</label>
+											<div class="layui-input-block">
+												<input type="text" lay-verify="required" placeholder="2017-12-23" class="layui-input" name="createtime">
+											</div>
+										</div>
+										<div class="layui-form-item">
+											<label class="layui-form-label" style="width:100px;">创建时间</label>
+											<div class="layui-input-block">
+												<input type="text" lay-verify="required" placeholder="2017-12-23" class="layui-input" name="dealtime">
+											</div>
+										</div>
+										<div class="layui-form-item">
+											<div class="layui-input-block">
+												<button type="submit" lay-submit="" class="layui-btn" lay-filter="sure">确定</button>
+												<button class="layui-btn layui-btn-primary">取消</button>
+											</div>
+										</div>
+									</form>
+						<!--<form class="layui-form" action="">
+							<div class="layui-form-item">
+								<label class="layui-form-label">标题</label>
+								<div class="layui-input-block">
+									<input type="text" name="title" required lay-verify="required" autocomplete="off" class="layui-input">
+								</div>
+							</div>
+							<div class="layui-form-item">
+								<label class="layui-form-label">选择框</label>
+								<div class="layui-input-block">
+									<select name="interest" lay-filter="aihao" style="display: block; width: 590px;height: 40px;">
+										<option value="">请选择</option>
+										<option value="0">模板一</option>
+
+									</select>
+								</div>
+							</div>
+							<div class="layui-form-item">
+								<label class="layui-form-label">客户</label>
+								<div class="layui-input-block">
+									<select name="interest" lay-filter="aihao" style="display: block; width: 590px;height: 40px;">
+										<option value="">请输入用户名搜索</option>
+										<optgroup label="请至少输入2个字符">
+										</optgroup>
+									</select>
+								</div>
+							</div>
+
+							<div class="layui-form-item">
+								<label class="layui-form-label">重要度</label>
+								<div class="layui-input-block">
+									<select name="interest" lay-filter="aihao" style="display: block; width: 590px;height: 40px;">
+										<option value="">-</option>
+										<option value="0">低</option>
+										<option value="1">中</option>
+										<option value="2">高</option>
+										<option value="3">紧急</option>
+									</select>
+								</div>
+							</div>
+							
+							
+							
+						</form>-->
+					</div>
+				</div>
+				<span class="layui-layer-setwin" id="close1">
+			<a class="layui-layer-ico layui-layer-close" href="javascript:;"></a>
+	</span>
+				
+				<span class="layui-layer-resize"></span>
+			</div>
+	</body>
+	
+	
+	
+	<script type="text/javascript">
+		layui.use('laydate', function() {
+			var laydate = layui.laydate;
+			//初始赋值
+			laydate.render({
+				elem: '#test19',
+				value: '2018-12-24',
+				isInitValue: true
+			});
+
+			//选中后的回调
+			laydate.render({
+				elem: '#test20',
+				done: function(value, date) {
+					layer.alert('你选择的日期是：' + value + '<br>获得的对象是' + JSON.stringify(date));
+				}
+			});
+
+			//日期范围
+			laydate.render({
+				elem: '#test6',
+				range: true
+			});
+		});
+		layui.use('element', function(){
+		  var element = layui.element;
+		  
+		  //…
+		});
+		
+		layui.use(['form', 'layedit', 'laydate'], function() {
+			var form = layui.form;
+			var layer = layui.layer;
+			var layedit = layui.layedit;
+			//监听提交
+			form.on('submit(sure)', function(data) {
+
+				alert(JSON.stringify(data.field));
+				$.post("/worksheet/addWorksheet", data.field, function(data) {
+
+				});
+
+			});
+		});
+
+</script>
+	</script>
+
+	<script>
+		layui.use('layer', function() { //独立版的layer无需执行这一句
+			var $ = layui.jquery,
+				layer = layui.layer; //独立版的layer无需执行这一句
+
+			//触发事件
+			var active = {
+				setTop: function() {
+					var that = this;
+					//多窗口模式，层叠置顶
+					layer.open({
+						type: 2 //此处以iframe举例
+							,
+						title: '当你选择该窗体时，即会在最顶端',
+						area: ['390px', '260px'],
+						shade: 0,
+						maxmin: true,
+						offset: [ //为了演示，随机坐标
+							Math.random() * ($(window).height() - 300), Math.random() * ($(window).width() - 390)
+						],
+						content: '//layer.layui.com/test/settop.html',
+						btn: ['继续弹出', '全部关闭'] //只是为了演示
+							,
+						yes: function() {
+							$(that).click();
+						},
+						btn2: function() {
+								layer.closeAll();
+							}
+
+							,
+						zIndex: layer.zIndex //重点1
+							,
+						success: function(layero) {
+							layer.setTop(layero); //重点2
+						}
+					});
+				},
+				notice: function() {
+					//示范一个公告层
+					layer.open({
+						type: 1,
+						title: false //不显示标题栏
+							,
+						closeBtn: false,
+						area: '300px;',
+						shade: 0.8,
+						id: 'LAY_layuipro' //设定一个id，防止重复弹出
+							,
+						btn: ['火速围观', '残忍拒绝'],
+						btnAlign: 'c',
+						moveType: 1 //拖拽模式，0或者1
+							,
+						content: '<div style="padding: 50px; line-height: 22px; background-color: #393D49; color: #fff; font-weight: 300;">你知道吗？亲！<br>layer ≠ layui<br><br>layer只是作为Layui的一个弹层模块，由于其用户基数较大，所以常常会有人以为layui是layerui<br><br>layer虽然已被 Layui 收编为内置的弹层模块，但仍然会作为一个独立组件全力维护、升级。<br><br>我们此后的征途是星辰大海 ^_^</div>',
+						success: function(layero) {
+							var btn = layero.find('.layui-layer-btn');
+							btn.find('.layui-layer-btn0').attr({
+								href: 'http://www.layui.com/',
+								target: '_blank'
+							});
+						}
+					});
+				},
+				offset: function(othis) {
+					var type = othis.data('type'),
+						text = othis.text();
+					layer.open({
+						type: 1,
+						offset: type //具体配置参考：http://www.layui.com/doc/modules/layer.html#offset
+							,
+						id: 'layerDemo' + type //防止重复弹出
+							,
+						content: '<div style="padding: 20px 100px;">' + text + '</div>',
+						btn: '关闭全部',
+						btnAlign: 'c' //按钮居中
+							,
+						shade: 0 //不显示遮罩
+							,
+						yes: function() {
+							layer.closeAll();
+						}
+					});
+				}
+			};
+
+			$('#layerDemo .layui-btn').on('click', function() {
+				var othis = $(this),
+					method = othis.data('method');
+				active[method] ? active[method].call(this, othis) : '';
+			});
+
+		});
+	</script>
+
+	<script type="text/javascript">
+		window.onload = function() {
+			var gd = document.getElementById("gongdan");
+			var bc = document.getElementById("btn-close");
+			var hezi = document.getElementById("layui-layer4");
+			var btn2 = document.getElementById("btn2");
+			var xiaohezi = document.getElementById("layui-layer6");
+			var btn0 = document.getElementById("btn0");
+			var btn6 = document.getElementById("btn6");
+			var c1 = document.getElementById("close1");
+
+//			gd.onclick = function() {
+//
+//				if(hezi.style.display == "none") {
+//					hezi.style.display = "block";
+//					bc.value = "隐藏模块";
+//				} else {
+//					hezi.style.display = "none";
+//					bc.value = "显示模块";
+//				}
+//			};
+			
+			bc.onclick = function() {
+				if(hezi.style.display == "none") {
+					hezi.style.display = "block";
+					bc.value = "隐藏模块";
+				} else {
+					hezi.style.display = "none";
+					bc.value = "显示模块";
+				}
+			}
+			btn2.onclick = function() {
+				console.log('520');
+				if(xiaohezi.style.display == "none") {
+					xiaohezi.style.display = "block";
+					btn2.value = "隐藏模块";
+				} else {
+					xiaohezi.style.display = "none";
+					btn2.value = "显示模块";
+				}
+			}
+
+			c1.onclick = function() {
+				console.log('520');
+				if(xiaohezi.style.display == "none") {
+					xiaohezi.style.display = "block";
+					c1.value = "隐藏模块";
+				} else {
+					xiaohezi.style.display = "none";
+					c1.value = "显示模块";
+				}
+			}
+
+			btn0.onclick = function() {
+				console.log('520');
+				if(xiaohezi.style.display == "none") {
+					xiaohezi.style.display = "block";
+					btn0.value = "隐藏模块";
+				} else {
+					xiaohezi.style.display = "none";
+					btn0.value = "显示模块";
+				}
+			}
+			
+			
+			
+
+		};
+	</script>
+</html>

@@ -1,0 +1,679 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>统计分析</title>
+</head>
+ <style>
+   *{
+   	margin: 0;
+   	padding: 0;
+   	box-sizing: border-box;
+   }
+   html{
+   	height: 100%;
+   }
+
+   body{
+       background-color: #F2F3F5;
+       display: flex;
+       height: 100%
+ 	}
+
+.main-left{
+	height: 100%;
+}
+
+
+.main-content{
+	overflow-y:auto;
+	height: 100%;
+	flex: 1;
+
+	display: flex;
+	flex-direction: column;
+}
+.main-header{
+ width: 100%;
+}
+
+.main-body{
+width: 100%;
+flex: 1;
+background-color: #EEEEEE;
+
+}
+/** 滚动条样式美化  */
+::-webkit-scrollbar{width:0px;height:6px;background:#ccc;}
+
+/*统计css开始*/
+.statistics{
+   margin: 20px;
+   padding: 30px;
+   background-color: #fff;
+   overflow: hidden;
+}
+.tab-title{
+    float: left;
+    width: 250px;
+    border-right:1px solid #ccc; 
+}
+.tab-title li{
+    display: block;
+    text-align: left; 
+    height: 50px;
+    padding: 20px 30px;
+    font-size: 19px;
+    line-height: 10px;
+}
+.tab-title li h5{
+    color:#333;
+}
+.tab-title li a{
+    font-size:14px ;
+    color:#333;
+}
+       
+.tab-content{
+     margin-left:250px ;
+     width: 968px;
+     height: 100%;
+}
+.show{
+    display: block;
+}
+.hide{
+    display: none;
+}
+.active {
+    background-color: #3f51b5;
+   
+}
+.active a{
+    color: #fff !important;
+}
+.find{
+    background-color:green;
+    display: inline-block;
+    color:#fff;
+    outline: none;
+    border: none;
+    line-height: 38px;
+    padding:0px 10px;
+    cursor: pointer;
+   
+}
+
+/*统计css结束*/
+ </style>
+<body>
+	<div class="main-left"><%- include("./left.ejs") %></div>
+	<div class="main-content">
+	<div class="main-header"><%- include("./head.ejs") %></div>
+	<div class="main-body">
+	     <div class="statistics">
+	        <ul class="tab-title">
+		          <!--<li><h5>客户统计</h5></li>-->
+		          <li class="active" data-url="/statistics/statisticsCustomer"><a href="javascript:void(0);">联系客户统计</a></li>
+		          <li data-url="/statistics/statisticsCustomer"><a href="javascript:void(0);">联系客户统计(员工维度)</a></li>
+		          <li data-url="/statistics/doGetContact"><a href="javascript:void(0);">创建客户统计</a></li>
+		          <li data-url="/statistics/doGetContact"><a href="javascript:void(0);">创建客户统计(员工维度)</a></li>
+		          <li><a href="javascript:void(0);">成交客户统计</a></li>
+		          <li><a href="javascript:void(0);">成交客户统计(员工维度)</a></li>
+		          <li><a href="javascript:void(0);">客户分类统计</a></li>
+		          <li><a href="javascript:void(0);">客户标签统计</a></li>
+		          <li><a href="javascript:void(0);">客户数量统计</a></li>
+		          <li><a href="javascript:void(0);">销售机会统计</a></li>
+		          <li><a href="javascript:void(0);">创建销售机会统计</a></li>
+		          <li><a href="javascript:void(0);">销售机会阶段统计</a></li>
+		          <li><a href="javascript:void(0);">销售机会状态统计</a></li>
+		          <li><a href="javascript:void(0);">合同统计</a></li>
+		    </ul>
+		    <div class="tab-content">
+			      <div class="show">
+			        <form class="layui-form" action="">
+			            
+					    <div class="layui-form-item" style="clear:none;height: 50px;">
+					        <div class="layui-inline">
+						      <label class="layui-form-label" style="width: 90px;">跟进时间</label>
+						      <div class="layui-input-inline">
+						        <input type="text" name="date" id="date" lay-verify="date" placeholder="yyyy-MM-dd" autocomplete="off" class="layui-input">
+						      </div>
+						    </div>
+						    <div class="layui-inline">
+						      <label class="layui-form-label" style="margin-left:-25px;width: 40px;background-color:#eee ;padding: 0px;line-height: 38px;text-align: center;">到</label>
+						      <div class="layui-input-inline">
+						        <input type="text" name="date" id="next" lay-verify="date" placeholder="yyyy-MM-dd" autocomplete="off" class="layui-input">
+						      </div>
+						    </div>
+					        <div class="layui-inline">
+						      <label class="layui-form-label">部门</label>
+						      <div class="layui-input-inline">
+						        <input type="text" name="email" lay-verify="email" autocomplete="off" class="layui-input" placeholder="全部">
+						      </div>
+						    </div>
+					    </div>
+					    
+					     <div class="layui-form-item" style="clear:none;height: 50px;">
+						    <div class="layui-inline">
+						      <label class="layui-form-label">员工</label>
+						      <div class="layui-input-inline">
+						        <input type="text" name="email" lay-verify="email" autocomplete="off" placeholder="全部" class="layui-input">
+						      </div>
+						    </div>
+						    <span class="find" id="find1">搜索</span>
+						  </div>
+			        </form>
+			        
+			        <div id="main" style="width: 900px;height:400px;"></div>
+			        
+			        <table class="layui-table">
+					  <colgroup>
+					    <col width="150">
+					    <col width="200">
+					    <col>
+					  </colgroup>
+					  <thead>
+					    <tr>
+					      <th>编号</th>
+					      <th>日期</th>
+					      <th>客户总量</th>
+					    </tr> 
+					  </thead>
+					  <tbody id="view01">
+					    
+					  </tbody>
+					</table>
+      
+			    </div>
+			    
+			    
+		        <div class="hide">
+		            <form class="layui-form" action="">
+			            
+					    <div class="layui-form-item" style="clear:none;height: 50px;">
+					        <div class="layui-inline">
+						      <label class="layui-form-label" style="width: 90px;">跟进时间</label>
+						      <div class="layui-input-inline">
+						        <input type="text" name="customerweidu01" id="customerweidu01" lay-verify="date" placeholder="yyyy-MM-dd" autocomplete="off" class="layui-input">
+						      </div>
+						    </div>
+						    <div class="layui-inline">
+						      <label class="layui-form-label" style="margin-left:-25px;width: 40px;background-color:#eee ;padding: 0px;line-height: 38px;text-align: center;">到</label>
+						      <div class="layui-input-inline">
+						        <input type="text" name="customerweidu02" id="customerweidu02" lay-verify="date" placeholder="yyyy-MM-dd" autocomplete="off" class="layui-input">
+						      </div>
+						    </div>
+					        <div class="layui-inline">
+									<select id="selected" style="width:50px;" lay-filter="test2">
+										<option value="">全部</option>
+										
+									</select>
+							</div>
+						    <button class="find">搜索</button>
+					    </div>
+					    
+			        </form>
+			        <div id="main2" style="width: 900px;height:400px;"></div>
+			        
+			        
+			        <table class="layui-table">
+					  <colgroup>
+					    <col width="150">
+					    <col width="200">
+					    <col>
+					  </colgroup>
+					  <thead>
+					    <tr>
+					      <th>编号</th>
+					      <th>员工</th>
+					      <th>客户总数</th>
+					    </tr> 
+					  </thead>
+					  <tbody id="view02">
+					    
+					  </tbody>
+					</table>
+		        </div>
+		        <div class="hide">创建客户统计</div>
+		        <div class="hide">创建客户统计(员工维度)</div>
+		        <div class="hide">成交客户统计</div>
+		        <div class="hide">成交客户统计(员工维度)</div>
+		        <div class="hide">客户分类统计</div>
+		        <div class="hide">客户标签统计</div>
+		        <div class="hide">客户数量统计</div>
+		        <div class="hide">销售机会统计</div>
+		        <div class="hide">创建销售机会统计</div>
+		        <div class="hide">销售机会阶段统计</div>
+		        <div class="hide">销售机会状态统计</div>
+		        <div class="hide">合同统计</div> 
+		    </div>
+	     </div>
+
+    </div>
+	</div>
+	</div>
+	<script src="/layui.js"></script>
+	<script src="/echarts.js"></script>
+    
+	<script>
+		
+	function getTime(){
+		//注意：导航 依赖 element 模块，否则无法进行功能性操作
+		layui.use('element', function() {
+			var element = layui.element;
+
+			//…
+		});
+
+	   
+	   layui.use(['layedit', 'laydate','form'], function() {
+			var layer = layui.layer;
+			var layedit = layui.layedit;
+			var laydate = layui.laydate;
+			var form = layui.form; //只有执行了这一步，部分表单元素才会自动修饰成功 	
+			form.render('select', 'test2'); //更新 lay-filter="test2" 所在容器内的全部 select 状态
+			var timeArr=[];
+		     //执行一个laydate实例
+			  laydate.render({
+			    elem: '#date', //指定元素
+			    done: function(value, date, endDate){
+//				       console.log(value); //得到日期生成的值，如：2017-08-18
+				       timeArr[0]=value;
+				        sendTimeArr(timeArr);
+					 }		    
+			    
+			    
+			  });
+			  
+			  laydate.render({
+			    elem: '#next', //指定元素
+			    done: function(value, date, endDate){
+//				       console.log(value); //得到日期生成的值，如：2017-08-18
+				       timeArr[1]=value;
+				       sendTimeArr(timeArr);
+					 }	
+			  });
+			  
+			  laydate.render({
+			    elem: '#customerweidu01' //指定元素
+			  });
+			  
+			  laydate.render({
+			    elem: '#customerweidu02' //指定元素
+			  });
+		    
+			
+		});
+		
+
+	}
+	function sendTimeArr(arr){
+		timeArr=arr;
+	}
+	</script>
+	<!--statistics页面的基本事件操作-->
+	<script>
+	  function operateStatistics(){
+	  	   //默认第一次点击第一个按钮
+	  	   getUserData("/statistics/statisticsCustomer");
+	  	
+	  	
+		   var tabTitle=document.querySelectorAll(".tab-title li");
+		   
+		   var tabContent=document.querySelectorAll(".tab-content>div");
+//		   console.log(tabContent);
+		   
+		
+		   
+		   for(var i=0;i<tabTitle.length;i++){
+		       tabTitle[i].index=i;
+		       tabTitle[i].onclick=function(){
+		           
+//		           console.log(this.index);
+		           for(var j=0;j<tabTitle.length;j++){
+		              tabTitle[j].className=" ";
+		              tabContent[j].className="hide";
+		           }
+		           this.className="active";
+		           tabContent[this.index].className="show";
+		           var url=this.dataset["url"];
+//		           console.log(url);
+		           if(this.index==0){
+		              getUserData(url);
+		           }else if(this.index==1){
+		              
+		               getUserDataWeidu(url);
+		           }
+		           
+		                  
+		       }
+		   
+		   }
+	  }
+	   
+	</script>
+	
+    
+ <script id="movie1" type="text/html">
+     <h3 style="color: #00f;">{{name}}</h3>
+     <p style="color: #f00;">时间：{{time}}</p>
+     <p style="color: #0f0;">导演：{{director}}</p>
+     <p style="color: #00f;">主演：{{main}}</p>
+ </script>
+	<script>
+	  function getUserDataWeidu(str){
+
+	    $.get(str,{},function(data){
+		        
+		        var data=data.result;
+		      
+		        var nameArr=[];
+		        for(var i=0;i<data.length;i++){
+		            
+		            nameArr.push(data[i].leader);
+		        }
+
+		        var nameObj=new Object();
+		        var x=[];
+		        var y=[];
+		        for(var i=0;i<nameArr.length;i++){
+		           var code=0;
+		           for(var j=i+1;j<nameArr.length;j++){
+		              if(nameArr[i]==nameArr[j]){
+		                 code++;
+		                 nameArr.splice(j,1);
+		                 j--;
+		              }
+		           }
+		           nameObj[nameArr[i]]=code+1;
+		           x.push(nameArr[i]);
+		           y.push(code+1);
+		        }
+
+		        var view02=document.querySelector("#view02");
+		        view02.innerHTML="";
+		        for(var i=0;i<x.length;i++){
+		           var tr=document.createElement("tr");
+		           var td1=document.createElement("td");
+		           td1.innerHTML=i;
+		           var td2=document.createElement("td");
+		           td2.innerHTML=x[i];
+		           var td3=document.createElement("td");
+		           td3.innerHTML=y[i];
+		           tr.appendChild(td1);
+		           tr.appendChild(td2);
+		           tr.appendChild(td3);
+		           view02.appendChild(tr);
+		        }
+		        var selected=document.querySelector("#selected");
+		        
+		        for(var i=0;i<x.length;i++){
+		           
+		           var option=document.createElement("option");
+		           option.value=x[i];
+		           option.innerHTML=x[i];
+
+		
+		           selected.appendChild(option);
+		        }
+		        
+		        echart2(x,y)
+//		        operateUser(nameObj);
+   
+		     })
+		  
+	  }
+	</script>
+	
+	
+	<!--创建客户统计-->
+	<script>
+	    //后台数据获取
+		function getUserData(str){
+	     
+		     
+		     $.get(str,{},function(data){
+		        console.log(data.result);
+		        
+		        var data=data.result;
+		        var arr=[];
+		        var current;
+		        for(var i=0;i<data.length;i++){
+		        	current=data[i].create_time;
+		        	
+		            arr.push(current);
+		            
+		        }
+		       
+		        var newObj=new Object();
+		        
+		        for(var i=0;i<arr.length;i++){
+		           var code=0;
+		           for(var j=i+1;j<arr.length;j++){
+		              if(arr[i]==arr[j]){
+		                 code++;
+		                 arr.splice(j,1);
+		                 j--;
+		              }
+		           }
+		           newObj[arr[i]]=code+1;
+		        }
+
+		        console.log(newObj);
+		        operateUser(newObj);
+ 
+		     })
+		  
+		  
+		//操作创建用户
+		function operateUser(newObj){
+		    //获取当前时间的方法封装
+	        var getxAxis=(function(){
+	          var date=new Date();
+	          var obj=new Object();
+	          for(var i=0;i<8;i++){
+	             var year=date.getFullYear();
+	             var month=date.getMonth()+1;
+	             var day=date.getDate()-i;
+	             var str=year+"-"+month+"-"+day;
+	             obj[i]=str;
+	          }
+	          return obj;
+	        })();
+	
+	        var yAxisObj=new Object();
+	        for(var key in getxAxis){
+	           var key2=getxAxis[key];
+	           
+	           if(newObj[key2]){
+	              yAxisObj[key2]=newObj[key2];
+	              
+	           }else{
+	              yAxisObj[key2]=0;
+	           }
+	           
+	        }
+	           var x=[getxAxis[7],getxAxis[6],getxAxis[5],getxAxis[4],getxAxis[3],getxAxis[2],getxAxis[1],getxAxis[0]];
+	           var y=[yAxisObj[getxAxis[7]], yAxisObj[getxAxis[6]], yAxisObj[getxAxis[5]], yAxisObj[getxAxis[4]], yAxisObj[getxAxis[3]], yAxisObj[getxAxis[2]],yAxisObj[getxAxis[1]],yAxisObj[getxAxis[0]]];
+
+	           echart(x,y);
+//	           var dateArr=document.querySelectorAll(".date");
+//		        for(var i=0;i<dateArr.length;i++){
+//		            dateArr[i].innerHTML=getxAxis[i];
+//		        }
+              var view01=document.querySelector("#view01");
+              view01.innerHTML="";
+		        for(var i=0;i<x.length;i++){
+		           var tr=document.createElement("tr");
+		           var td1=document.createElement("td");
+		           td1.innerHTML=i;
+		           var td2=document.createElement("td");
+		           td2.innerHTML=x[i];
+		           var td3=document.createElement("td");
+		           td3.innerHTML=y[i];
+		           tr.appendChild(td1);
+		           tr.appendChild(td2);
+		           tr.appendChild(td3);
+		           view01.appendChild(tr);
+		        }
+		      
+		      var buttonFind=document.querySelector("#find1");
+
+		      buttonFind.onclick=function(){
+		     
+		      	var year=timeArr[1].substr(0,4)-timeArr[0].substr(0,4);
+
+		      	var month=timeArr[1].substr(5,2) - timeArr[0].substr(5,2);
+ 	
+		      	var day=timeArr[1].substr(8,2)-timeArr[0].substr(8,2);
+
+		      	var reduce=year*365 + month*30 + day;
+		      	var reduceArr=[];
+		      	var day2=timeArr[1].substr(8,2)-0;
+		      	var month2=timeArr[1].substr(5,2);
+		      	var year2=timeArr[1].substr(0,4)
+		      	var x=0;
+		      	for(var i=0;i<reduce;i++){
+		      		x=day2;
+		      		if(day2<10){
+		      			x='0'+day2;
+		      		}
+		      		var str=year2+"-"+month2+"-"+x;
+		      		day2--;
+		      		if(day2==0){
+		      			day2=30;
+		      			month2--;
+		      			if(month2==0){
+		      				year2--;
+		      			}		
+		      		}
+		      		reduceArr.unshift(str);
+		      	}
+		      	
+		      	var YreduceArr=[];
+//		      	console.log(reduceArr);
+		      	for(var i=0;i<reduceArr.length;i++){
+		      		
+		      		if(newObj[reduceArr[i]]){
+		      			
+		      			YreduceArr.push(newObj[reduceArr[i]]);
+		      		}else{
+		      		   YreduceArr.push(0);
+		      		}
+		      	}
+		      
+		      	
+		      	
+		      	view01.innerHTML="";
+		        for(var i=0;i<reduceArr.length;i++){
+		           var tr=document.createElement("tr");
+		           var td1=document.createElement("td");
+		           td1.innerHTML=i;
+		           var td2=document.createElement("td");
+		           td2.innerHTML=reduceArr[i];
+		           var td3=document.createElement("td");
+		           td3.innerHTML=YreduceArr[i];
+		           tr.appendChild(td1);
+		           tr.appendChild(td2);
+		           tr.appendChild(td3);
+		           view01.appendChild(tr);
+		        }
+//		        console.log(YreduceArr);
+		      	echart(reduceArr,YreduceArr);
+		      }
+		      
+		      
+
+
+			}  
+		}
+	</script>
+	
+	<!--创建客户统计(员工维度)-->
+	<script>
+	  
+	</script>
+	
+	<!--图表创建-->
+	<script type="text/javascript">
+	  function echart(x,y){
+
+        // 基于准备好的dom，初始化echarts实例
+        var myChart = echarts.init(document.getElementById('main'));
+       
+       
+        // 指定图表的配置项和数据
+       
+        var option = {
+            title: {
+                text: '联系客户统计'
+            },
+            tooltip: {},
+            legend: {
+                data:['客户数量']
+            },
+            xAxis: {
+                data: x
+            },
+            yAxis: {},
+            series: [{
+                name: '客户数量',
+                type: 'bar',
+                data: y
+            }]
+        };
+       
+        // 使用刚指定的配置项和数据显示图表。
+        myChart.setOption(option);
+       
+  
+	    }
+       
+    </script>
+    
+    <script type="text/javascript">
+	  function echart2(x,y){
+
+        // 基于准备好的dom，初始化echarts实例
+        var myChart2 = echarts.init(document.getElementById('main2'));
+       
+        // 指定图表的配置项和数据
+        var option2 = {
+            title: {
+                text: '联系客户统计(员工维度)'
+            },
+            tooltip: {},
+            legend: {
+                data:['客户数量']
+            },
+            xAxis: {
+                data: x
+            },
+            yAxis: {},
+            series: [{
+                name: '客户数量',
+                type: 'bar',
+                data: y
+            }]
+        };
+       
+        // 使用刚指定的配置项和数据显示图表。
+       
+        myChart2.setOption(option2);
+  
+	    }
+       
+    </script>
+    
+    <script>
+       window.onload=function(){
+       	  var timeArr=[];
+          operateStatistics();
+          getTime();
+//        getUserData();
+//        echart();
+       }
+    </script>
+</body>
+</html>

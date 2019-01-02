@@ -1,0 +1,260 @@
+<html>
+	<head>
+		<title>注册</title>
+		<link rel="stylesheet" href="/css/layui.css">
+        <script src="/layui.js"></script>
+        <script src="/jquery.min.js"></script>
+        <style type="text/css">
+        	body{
+        	   background: #3949ab;
+        	   font-family: "微软雅黑";
+        	}
+        	.content{
+        		width: 400px;
+        		position: fixed;
+        		top: 0;
+        		left: 50%;
+        		bottom: 0;
+        		background-color: #fff;
+        		margin-bottom: 20px;
+        		margin-left: -200px;
+        		border-radius: 5px;
+        	}
+        	.login-header{
+        		position: relative;
+        		top: 25px;
+        		left: 0;
+        		height: 40px;
+        	}
+        	#quick{
+        		width: 40px;
+        		height: 40px;
+        		background: url("https://saas.qikebao.com/images/login-quick.png") no-repeat;
+                background-size: 40px 40px;
+                cursor: pointer;
+                position: absolute;
+                right: 25px;
+                top: 0px;
+        	}
+        	#pwdLogin{
+        		width: 40px;
+        		height: 40px;
+        		background: url("https://saas.qikebao.com/images/login-static.png") no-repeat;
+                background-size: 40px 40px;
+                cursor: pointer;
+                position: absolute;
+                right: 25px;
+                top: 0px;
+                display: none;
+        	}
+        	.login-tip{
+        		position: absolute;
+        		right: 70px;
+        		top: 0px;
+        		font-size: 12px;
+        		color: #14c2dd;
+        	}
+        	.poptip{
+        		display: block;
+        		padding: 5px 10px;
+                background: #e6f9fc;
+                border: 1px solid #14c2dd;
+                z-index: 9;
+        	}
+        	.poptip2{
+        		display: block;
+        		padding: 5px 10px;
+                background: #e6f9fc;
+                border: 1px solid #14c2dd;
+                z-index: 9;
+        	}
+        	.saoma-tip{
+        		display: none;
+        		padding: 5px 10px;
+                background: #e6f9fc;
+                border: 1px solid #14c2dd;
+                z-index: 9;
+        	}
+        	.panel-body{
+        		padding: 50px 40px 40px;
+        	}
+        	
+        	.layui-input-block{
+        		margin-left: 0 !important;
+        	}
+        	.layui-input-block input,button{
+        		width: 320px;
+        		margin-bottom: 25px;
+        	}
+        	.layui-input-inline{
+        		width: 144px !important;
+        	}
+        	.brand{
+        		height: 150px;
+        		position: relative;
+        	}
+        	.brand-text{
+        		font-weight: 400;
+                line-height: 1.2;
+                color: #37474f;
+                position: absolute;
+                top: 50px;
+                left: 50%;
+                transform: translateX(-50%);
+        	}
+        	.vcode{
+        		width: 144px;
+        		height: 36px;
+        		line-height: 36px;
+        		background: #eaeaea;
+        		float: right;
+        		color: #37474f;
+        		text-align: center;
+        		font-size: 20px;
+        	}
+        	.info{
+        		width: 100%;
+        		margin-bottom: 20px;
+        		padding-left: 10px;
+        	}
+            .warn{
+            	display: none;
+            }
+        </style>
+	</head>
+	<body>
+		<div class="content">
+		<div class="panel-body">
+			<div class="brand">
+				<h2 class="brand-text">用户注册</h2></div>
+			<form class="layui-form" action="">
+				<div class="layui-form-item">
+					<div class="layui-input-block">
+						<input type="tel" name="phone" lay-verify="required|phone" autocomplete="off" placeholder="请输入手机号" class="layui-input">
+					</div>
+				</div>
+				<div class="layui-form-item">
+					<div class="layui-input-block">
+						<input type="password" id="pwd" name="password" lay-verify="pass" placeholder="请输入密码" autocomplete="off" class="layui-input">
+					</div>
+				</div>
+				<div class="layui-form-item">
+					<div class="layui-input-block">
+						<input type="password" id="pwdConfirm" name="password" lay-verify="pass" placeholder="请确认密码" autocomplete="off" class="layui-input">
+					</div>
+				</div>
+				<div class="layui-form-item">
+					<div class="layui-input-inline">
+						<input type="text" autocomplete="off" placeholder="请输入验证码" id="v-code" class="layui-input">
+					</div>
+					<div class="vcode"></div>
+				</div>
+				<div class="info"></div>
+				<div class="layui-input-block">
+                <button class="layui-btn" lay-submit="" id="login" lay-filter="demo1" style="background-color: #3949ab;">立即注册</button>
+                </div>
+			</form>
+		</div>
+		<div class="warn" style="width: 100%;color: red;height: 20px;text-align: center;">注册成功去     <a href='/login'>登录</a></div>
+		</div>
+	</body>
+</html>
+<script>
+	$(document).ready(function() {
+			var code;
+			function createCode(){
+	        	code = '';
+		        var codeLength = 4;
+		        var codeV = $(".vcode");
+		        var random = new Array(0,1,2,3,4,5,6,7,8,9,'A','B','C','D','E','F','G','H','I','J','K','L','M','N','O','P','Q','R', 'S','T','U','V','W','X','Y','Z');
+		        for(var i = 0; i < codeLength; i++){ 
+		             var index = Math.floor(Math.random()*36); 
+		             code += random[index];  
+	        }
+		        codeV.html(code);
+	    	}
+		
+    		//页面开始加载验证码
+			createCode();
+			//验证码Div加载点击事件
+			$(".vcode").bind('click',function() {
+					createCode();
+				});
+		    	
+		    $("#login").bind('click',function() {
+		    	if($("#pwd").val() == $("#pwdConfirm").val()){
+		    	 var oValue = $("#v-code").val().toUpperCase();
+		    	 $(".info").html("");
+		        if(oValue ==""){
+		        	$(".info").html("<font color='red'>验证码不能为空</font>");
+		        }else if(oValue != code){
+		        	$(".info").html("<font color='red'>验证码不正确，请重新输入</font>");
+		            oValue = "";
+		            createCode();
+		        }
+		        }
+		    });	
+});
+          
+          $("#quick").click(function(){
+          	$(".content").css("height","536px");
+          	$(".content").css("margin-top","40px");
+          	$(this).css("display","none");
+          	$(".panel-body").css("display","none");
+          	$("#pwdLogin").css("display","block");
+          	$(".saoma-body").css("display","block");
+          })
+          
+          $("#pwdLogin").click(function(){
+          	$(".content").css("height","645px");
+          	$(".content").css("margin-top","0px");
+          	$(this).css("display","none");
+          	$(".saoma-body").css("display","none");
+          	$("#quick").css("display","block");
+          	$(".panel-body").css("display","block");
+          })
+          
+</script>
+<script>
+layui.use(['form', 'layedit', 'laydate'], function(){
+  var form = layui.form
+  ,layer = layui.layer
+  ,layedit = layui.layedit
+	form.on('submit(demo1)', function(data){
+//  layer.alert(JSON.stringify(data.field), {
+//    title: '最终的提交信息'
+//  });
+    if($("#pwd").val() == $("#pwdConfirm").val()){
+    	//$(".warn").css("display","block");
+    	$.post("/register/addUser",data.field,function(data){
+    	console.log(data);
+    	alert("注册成功！");
+    })
+    }
+    else{
+    	$(".info").html("<font color='red'>密码必须与第一次输入相同</font>");
+        return false;
+    }
+    
+    /*$.get("/login/getUser",{},function(data){
+    	console.log(data);
+    });*/
+});
+    
+     form.verify({
+    title: function(value){
+      if(value.length < 5){
+        return '标题至少得5个字符啊';
+      }
+    }
+    ,pass: [
+      /^[\S]{6,12}$/
+      ,'密码必须6到12位，且不能出现空格'
+    ]
+    ,content: function(value){
+      layedit.sync(editIndex);
+    }
+  });
+  
+});
+</script>

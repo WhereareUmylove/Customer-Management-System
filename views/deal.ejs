@@ -1,0 +1,673 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>销售机会</title>
+</head>
+ <style>
+   *{
+   	margin: 0;
+   	padding: 0;
+   	box-sizing: border-box;
+   }
+   html{
+   	height: 100%;
+   }
+
+   body{
+       background-color: #F2F3F5;
+       display: flex;
+       height: 100%
+ 	}
+
+.main-left{
+	height: 100%;
+}
+
+
+.main-content{
+	overflow-y:auto;
+	/*height: 100%;*/
+	flex: 1;
+
+	display: flex;
+	flex-direction: column;
+}
+.main-header{
+ width: 100%;
+}
+
+.main-body{
+background-color: white !important;
+width: 100%;
+flex: 1;
+
+}
+/** 滚动条样式美化  */
+::-webkit-scrollbar{width:0px;height:6px;background:#ccc;}
+
+
+.main-body{
+	padding: 20px;
+	/* border: 1px solid green; */
+	background-color: #eaeaea !important;
+	box-sizing: border-box;
+}
+.body{
+
+	background-color: white  !important;
+     padding: 0px 20px;
+}
+.main-body .layui-nav-item{
+	text-align: center;
+	
+}
+.main-body .layui-nav-item a{
+	padding-left: 0px !important ;
+}	
+
+.main-body .layui-nav-bar,.main-body .layui-nav-tree .layui-nav-itemed:after {
+	padding-left: 0px !important;
+    background-color: gray;
+    height: 2px !important;
+   
+}
+.main-body .layui-nav .layui-this:after{
+    background-color: #3f51b5 !important;
+    height: 2px !important;
+	} 
+
+.main-body .layui-nav{
+padding-left: 0px !important;
+width: 100%;
+background-color: white !important;
+border-bottom: 1px solid #ccc !important;
+ position: relative;
+}
+.main-body .layui-nav .layui-nav-item a {
+    width:135px !important; 
+    color: gray !important;
+    font-size: 14px !important;
+    padding-left: 0px  !important;
+    
+}
+.main-body .layui-nav .layui-this a{
+    color: #3f51b5 !important;
+}
+.body  .layui-form-label{
+	color: #323c42 !important;
+	font-size: 14px;
+}
+.main-body	.layui-btn-group{
+	position: absolute;
+}	
+
+
+.body .group1{
+	bottom: 10px;
+	width: 100px;
+	right: 110px;
+    background-color: #00bcd4;
+    border-radius: 5px;
+
+}	
+.body .group2{
+	bottom: 10px;
+	right: 0px;
+	font-size: 12px !important;
+	border-radius: 5px;
+}	
+.body .group1 .layui-btn
+{
+ background-color: #00bcd4 !important;
+ height: 33px !important;
+ width: 33px !important;
+ padding: 0px !important;
+ border: 0px !important;
+
+}
+.body .yjriLabel{
+
+	width: 115px !important;
+}
+.body .yjriInput{
+	margin-right: 0px !important;
+}
+.body .dao{
+	text-align: center;
+	display: inline-block;
+	width: 38px;
+	height: 38px;
+	line-height: 38px;
+	font-size: 14px;
+    background-color:  #eaeaea;
+}
+.body .layui-form-select dl dd{
+	 font-size: 14px !important;
+	  color: gray !important;
+}
+.body .layui-form-select dl dd.layui-this {
+    background-color: #eaeaea !important;
+   
+     }
+.body .group2 .layui-btn
+{
+ background-color: #4cae4c !important;
+ height: 33px !important;
+ width: 100px !important;
+ padding: 0px !important;
+ border: 0px !important;
+
+
+}
+
+.body input{
+	
+	font-size: 12px !important;
+	}
+.body .layui-btn{
+	  font-size: 12px !important;
+		width: 52px !important;
+		height: 34px !important;
+		background-color: #5cb85c !important;
+		padding:0px !important;
+		line-height: 34px !important
+}
+.body .gaoji{
+	font-size: 12px;
+	color: #00bcd4;
+}
+.body .gaoji:hover{
+	color: #3f51b5 ;
+	}
+.body .inputs{
+	padding: 10px 0px;
+	border-bottom: 1px solid #ccc;
+	
+
+}
+
+.body .inputGroup{
+    overflow: hidden;
+    margin: 20px 0px;
+	
+
+}	
+.body.inputGroup a{
+background-color: red;
+ }
+
+.body .inputGroup ul li,.inputGroupRight select{
+
+ float: left;
+ padding: 5px 20px;
+ background-color: #eaeaea;
+ margin-right: 5px;
+ border-radius: 2px;
+}
+.inputGroupRight .inputGroupRightGroup{
+width: 230px;
+	float: left;
+	background-color: white;
+	border: 1px solid #5cb85c;
+}
+.inputGroupRight select,.inputGroupRight input{
+	padding: 7px 20px;
+	background-color: white;
+   border: 1px solid #eaeaea;
+}
+ .inputGroupRight input{
+  padding: 8px 20px;
+  margin-right: 0px;
+	border: 0px;
+}	
+ .body .inputGroupRight .layui-btn{
+	height:35px !important;
+	border-radius: 0px;
+}
+
+.model{
+position: fixed ;
+top:0;
+left:0;
+right: 0;
+bottom:0;
+
+background-color: rgba(0,0,0,0.3);
+display: none;
+}
+.model .model_inner{
+   overflow: auto;
+	padding: 30px 20px 20px 0px;
+	width: 610px;
+	height: 550px;
+    background-color: white;
+    margin: 30px auto;
+    border-radius: 5px;
+
+}
+#cj1{
+	position: relative;
+	left: 20px;
+	font-size: 22px;
+
+}
+#cj2 {
+	font-size: 22px;
+	position: relative;
+	left:  430px;
+	cursor: pointer;
+}
+.body .table{
+	overflow: auto;
+	width: 100%;
+}
+</style>
+<body>
+	<div class="main-left"><%- include("./left.ejs") %></div>
+	<div  class="main-content">
+	<div class="main-header"><%- include("./head.ejs") %></div>
+	<div class="main-body">
+	  <div class="body">	
+		<ul class="layui-nav" lay-filter="">
+			  <li class="layui-nav-item layui-this"><a href="javascript:void(0)">全部销售机会</a></li>
+			  <li class="layui-nav-item "><a href="javascript:void(0)">我的销售机会</a></li>
+			  <li class="layui-nav-item"><a href="javascript:void(0)">共享给我的销售机会</a></li>
+			
+			  <li class="layui-nav-item"><a href="javascript:void(0)">我共享的销售机会</a></li>
+			  <div class="layui-btn-group group1">
+				  <button class="layui-btn "><i class="iconfont icon-fenlei"></i></button><button class="layui-btn layui-btn-norma"><i class="layui-icon layui-icon-more"></i></button><button class="layui-btn layui-btn-norma"><i class="iconfont icon-ai253"></i></button>
+			  </div>
+				<div class="layui-btn-group group2">
+				  <button class="layui-btn" id="create">创建销售机会</button>
+				</div>
+		</ul>
+		<div class="inputs">
+			  <form class="layui-form" action="/deal/find" method="post" id="find">
+				 <div class="layui-form-item">
+                  <div class="layui-inline">
+				      <label class="layui-form-label">状态</label>
+				      <div class="layui-input-inline">
+				        <select>
+				          <option value="0">全部</option>
+				          <option value="1">失败</option>
+				          <option value="2">进行中</option>
+				          <option value="3">成交</option>
+				        </select>
+				      </div>
+				  </div>
+				  <div class="layui-inline">
+				      <label class="layui-form-label">分类</label>
+				      <div class="layui-input-inline">
+				        <select >
+				          <option value="0">全部</option>
+				          <option value="1">一般</option>
+				          <option value="2">重要</option>
+				        </select>
+				      </div>
+				  </div>
+				  <div class="layui-inline">
+				      <label class="layui-form-label">阶段</label>
+				      <div class="layui-input-inline">
+				        <select name="stage" id="bodyStage">
+				 
+				          <option value="第一阶段">第一阶段</option>
+				          <option value="第二阶段">第二阶段</option>
+				          <option value="第三阶段">第三阶段</option> 
+				        </select>
+				      </div>
+				  </div>
+				  <div class="layui-inline">
+				      <label class="layui-form-label yjriLabel">预计签到日期</label>
+				      <div class="layui-input-inline yjriInput">
+				        <input type="text" name="estimated_amount" id="date"   autocomplete="off" class="layui-input">
+				     </div>
+				  </div>
+
+				  <div class="layui-inline">
+				        <label class="layui-form-label yjriLabel">创建时间</label>
+				       <div class="layui-input-inline">
+				        <input type="text" name="create_time" id="date1"  autocomplete="off" class="layui-input">
+				       </div>
+				  </div>
+
+				  <div class="layui-inline">
+				      <label class="layui-form-label">负责人</label>
+				      <div class="layui-input-inline">
+				        <select name="leader" id="bodyLeader">
+				          <option value="张三">张三</option>
+				          <option value="王五">王五</option>
+				           <option value="赵六">赵六</option>
+				        </select>
+				      </div>
+				  </div>
+
+                  <div class="layui-inline">
+				      <button class="layui-btn" lay-submit >搜索
+				      </button>
+				      <a href="" class="gaoji">高级搜索</a>
+				  </div>
+								 </div>
+								 
+							
+             </form>
+			 
+        </div>
+        <div class="inputGroup">
+          <ul>
+			<a href="javascript:void(0)"><li><i class=""></i>共享销售机会</li></a>
+			<a href="javascript:void(0)"><li><i class=""></i>转移销售机会</li></a>
+			<a href="javascript:void(0)"><li><i class=""></i>设置下次联系时间</li></a>
+			<a href="javascript:getMessage()"><li><i class=""></i>删除</li></a>
+			<a href="javascript:void(0)"><li><i class=""></i>导出</li></a>
+			<a href="javascript:void(0)"><li><i class=""></i>显示列</li></a>
+         </ul>
+         <div class="inputGroupRight">
+         	<select lay-ignore>
+             <option>销售机会名</option>
+             <option>简介</option>
+            </select>
+            <div class="inputGroupRightGroup">
+							<input type="text" name="title" required lay-verify="required" placeholder="检索..." autocomplete="off" class="layui-input-inline">  
+              <button class="layui-btn btn" lay-filter="formDemo"><i class="iconfont icon-sousuo1"></i></button>
+           </div>
+         </div>
+        </div>
+        <div class="table">
+			<div class="layui-form">
+			  <table class="layui-table" >
+			    <thead>
+			      <tr>
+			      	<th class="layui-form"><input id="owner_all" type="checkbox" lay-skin="primary" lay-filter="owner_all"></th>
+			        <th>名称</th>
+			        <th>所属客户</th>
+			        <th>负责人</th>
+			        <th>预计金额</th>
+			        <th>预计签单日期</th>
+			        <th>阶段</th>
+			        <th>创建时间</th>
+			        <th>我所共享</th>
+			        <th>我所被享</th>
+			      </tr> 
+			    </thead>
+			    <tbody>
+			    	<% for(var i = 0 ; i < data.length ; i++){ %>
+			    	<tr>
+			    	<td class="layui-form"><input class="ownerCost" type="checkbox" lay-skin="primary" lay-filter="owner_one"></td>
+			        <td name="id" date="<%=data[i]._id%>"><%=data[i].name%></td>
+			        <td><%=data[i].username%></td>
+			        <td ><%=data[i].leader%></td>
+			        <td><%=data[i].estimated_amount%></td>
+			        <td><%=data[i].estimated_data%></td>
+			        <td><%=data[i].stage%></td>
+			        <td><%=data[i].create_time%></td>
+			        <td><%=data[i].share%></td>
+			        <td><%=data[i].shared%></td>
+			      </tr>
+			      <%
+			         }
+		           %>
+			    </tbody>
+			  </table>
+			</div>
+		
+        </div>
+      </div>
+	</div>
+	
+	<div class="model">
+		<div class="model_inner">
+
+			<form class="layui-form" action="">
+				<div class="layui-form-item">
+		          <span id="cj1">创建销售机会</span>
+		          <span id="cj2">X</span>
+				<div>
+
+				  <div class="layui-form-item">
+				    <label class="layui-form-label">名称</label>
+				    <div class="layui-input-block">
+				      <input type="text" name="name" lay-verify="title" autocomplete="off" placeholder="请输入名称" class="layui-input">
+				    </div>
+				  </div>
+		  
+				  <div class="layui-form-item">
+				    <label class="layui-form-label">所属客户</label>
+				    <div class="layui-input-block">
+				      <input type="text" name="username" lay-verify="title" autocomplete="off" placeholder="请输入所属客户" class="layui-input">
+				    </div>
+				  </div>
+		 
+				  <div class="layui-form-item">
+				    <label class="layui-form-label">负责人</label>
+				     <div class="layui-input-block">
+				      <select  lay-verify="required" name="stage" id="select2">
+				        <option value="">请选择</option>
+				        <option value="0">张三</option>
+				        <option value="1">王五</option>
+				         <option value="2">赵六</option>
+				      </select>
+				    </div>
+				  </div>
+
+				  <div class="layui-form-item">
+				    <label class="layui-form-label">预计金额</label>
+				    <div class="layui-input-block">
+				      <input type="text" name="estimated_amount" lay-verify="title" autocomplete="off" placeholder="请输入金额" class="layui-input">
+				    </div>
+				  </div>
+
+				  <div class="layui-form-item">
+					  <div class="layui-inline">
+					    <label class="layui-form-label">预计签单日期</label>
+					    <div class="layui-input-inline">
+					    <input type="text" name="estimated_data" id="date2" lay-verify="date"  autocomplete="off" class="layui-input">
+					    </div>
+					  </div>
+				    <div class="layui-inline">
+				      <label class="layui-form-label">创建日期</label>
+				      <div class="layui-input-inline">
+				        <input type="text" name="create_time" id="date3" lay-verify="date"  autocomplete="off" class="layui-input">
+				      </div>
+				    </div>
+		        </div>
+				 <div class="layui-form-item">
+				    <label class="layui-form-label">阶段</label>
+				    <div class="layui-input-block">
+				      <select  lay-verify="required" name="stage" id="select1">
+				        <option value="">请选择</option>
+				        <option value="0">第一阶段</option>
+				        <option value="1">第二阶段</option>
+				         <option value="1">第三阶段</option>
+				      </select>
+				    </div>
+				  </div>
+
+
+				  <div class="layui-form-item">
+				    <label class="layui-form-label">我所共享</label>
+				    <div class="layui-input-block">
+				      <input type="radio" name="share" value="Yes" title="Yes" checked>
+				      <input type="radio" name="share" value="No" title="No" >
+				    </div>
+				  </div>
+
+
+				  <div class="layui-form-item">
+				    <label class="layui-form-label">我被共享</label>
+				    <div class="layui-input-block">
+				      <input type="radio" name="shared" value="Yes" title="Yes" checked>
+				      <input type="radio" name="shared" value="No" title="No" >
+				    </div>
+				  </div>
+		  
+				 <div class="layui-form-item">
+				    <div class="layui-input-block">
+				      <button  id="btn" class="layui-btn" ">立即提交</button>
+				    
+				    </div>
+				  </div>
+		   </form>
+ 
+		</div>
+	</div>
+</body>
+</html>
+
+<script src="layer.js"></script>
+<script>
+$(function(){
+
+
+
+	layui.use('element', function(){
+	  var element = layui.element;
+	});
+	
+
+	
+layui.use(['form', 'layedit', 'laydate','layer'], function(){
+  var form = layui.form
+  ,layer = layui.layer
+  ,layedit = layui.layedit
+  ,laydate = layui.laydate;
+	
+	 var layer = layui.layer;
+
+	if($('table tbody tr').length==0 ){
+	 layer.open({
+   title: '提示'
+   ,content: '没有查询到相关信息哦~'
+	 });  
+}
+	
+  form.on('submit(formDemo)', function(data){
+	    layer.msg(JSON.stringify(data.field));
+	    return false;
+	  });
+
+  form.on('checkbox(owner_all)', function(data) {
+				var a = data.elem.checked;
+				if(a == true) {
+					$(".ownerCost").prop("checked", true);
+					form.render('checkbox');
+				} else {
+					$(".ownerCost").prop("checked", false);
+					form.render('checkbox');
+				}
+			});
+			//有一个未选中全选取消选中
+			form.on('checkbox(owner_one)', function(data) {
+				var item = $(".ownerCost");
+				var isTrue = true;
+				for(var i = 0; i < item.length; i++) {
+					if(item[i].checked == false) {
+						isTrue = false;
+						$("#owner_all").prop("checked", false);
+						form.render('checkbox');
+					}
+				}
+				if(isTrue) {
+					$("#owner_all").prop("checked", true);
+					form.render('checkbox');
+				}
+			});
+
+
+
+			laydate.render({
+			    elem: '#date'
+			  });
+			  laydate.render({
+			    elem: '#date1'
+			  });
+			   laydate.render({
+			    elem: '#date2'
+			  });
+			    laydate.render({
+			    elem: '#date3'
+			  });
+
+           });
+
+
+		$("#create").click(function(){
+			
+			$(".model").css("display","block");
+		})
+
+		$("#cj2").click(function(){
+			
+			$(".model").css("display","none");
+		})
+
+// 增加事件
+    $("#btn").click(function(){
+
+    var obj = {};
+        obj.name = $("input[name=name]").val();
+	    obj.username = $("input[name=username]").val();
+	    obj.leader = $("#select2 option:selected").text(),
+		obj.estimated_amount=$(".model input[name=estimated_amount]").val();
+	    obj.estimated_data=$("input[name=estimated_data]").val();
+	    obj.stage= $("#select1 option:selected").text();
+		obj.create_time=$(".model input[name=create_time]").val();
+	    obj.share=Boolean($("input[name=share]:checked").val());
+	    obj. shared=Boolean($("input[name=shared]:checked").val());
+
+		   if (obj.name==""){
+				alert("name");
+				return
+			}
+			if(obj.job==""){
+				alert("job");
+				return
+			}
+			if(obj.leader==""){
+				alert("leader");
+				return
+			}
+			if(obj.estimated_amounte==""){
+				alert("estimated_amounte");
+				return
+			}
+			if(obj.estimated_data==""){
+				alert("estimated_data");
+				return
+			}
+			if(obj.stage==""){
+				alert("stage");
+				return
+			}
+			if(obj.create_time==""){
+				alert("create_time");
+				return
+			}
+
+			$.post("/deal",obj,function(data){
+				if(data.code == -1){
+			}
+			 window.location.reload();
+			},"json")
+
+			})
+
+      })
+
+//删除操作
+
+        function getMessage() {
+		var Tabobj = $(".layui-table")[0];
+		var Check = $("table input[lay-filter=owner_one]:checked");
+		console.log(Check);
+		var Checkcount = Check.length;
+		Check.each(function () {
+			var row = $(this).parent("td").parent("tr");
+			var leader = row.find("[name='id']").attr("date");
+	        $.get("/deal/delete",leader)
+		})
+		window.setTimeout(function(){
+			window.location.reload();
+		},300)
+	}
+</script>

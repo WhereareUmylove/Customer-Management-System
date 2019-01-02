@@ -1,0 +1,762 @@
+<!DOCTYPE html>
+<html lang="en">
+
+	<head>
+		<meta charset="UTF-8">
+		<title>客户</title>
+	</head>
+	<style>
+		* {
+			margin: 0;
+			padding: 0;
+			box-sizing: border-box;
+		}
+		
+		html {
+			height: 100%;
+		}
+		
+		body {
+			color: #757575;
+			background-color: #F2F3F5;
+			display: flex;
+			height: 100%
+		}
+		/* 显示和隐藏 */
+		
+		.display {
+			display: table-row;
+		}
+		
+		.hidden {
+			display: none;
+		}
+		
+		.display2 {
+			display: table-row;
+		}
+		
+		.hidden2 {
+			display: none;
+		}
+		
+		.display3 {
+			display: table-row;
+		}
+		
+		.hidden3 {
+			display: none;
+		}
+		
+		.customer {
+			min-width: 1111px;
+			margin: 20px;
+			padding: 20px;
+			background: white;
+		}
+		
+		.customer .screen #search {
+			display: inline-block;
+			width: 60px;
+			height: 30px;
+			color: white;
+			background: rgb(29, 184, 29);
+			line-height: 30px;
+			text-align: center;
+			border-radius: 3px;
+		}
+		
+		.customer .screen #seniorSearch {
+			color: #337ab7;
+		}
+		
+		.customer .screen #and {
+			display: inline-block;
+			margin-left: -10px;
+			text-align: center;
+		}
+		
+		.customer .head ul .right {
+			float: right;
+		}
+		
+		.customer .forms form>a {
+			display: inline-block;
+			height: 30px;
+			background: #eee;
+			color: #757575;
+			text-align: center;
+			margin-left: 0;
+		}
+		
+		.customer .forms .layui-form #jiyiji {
+			margin-left: -5px;
+			margin-right: -5px;
+		}
+		
+		.customer .forms .layui-form #sousuo {
+			background: rgb(70, 179, 26);
+			color: white;
+			height: 38px;
+			line-height: 38px;
+		}
+		
+		.customer .forms #tbodyTd tr {
+			line-height: 41px;
+		}
+		
+		.forms .layui-btn {
+			background: #eee;
+			color: #757575;
+		}
+		
+		.tables {
+			overflow-x: auto;
+		}
+		
+		.layui-table tr {
+			border-bottom: 1px solid #e6e6e6;
+		}
+		
+		.layui-table td {
+			border: 0 !important;
+			padding: 15px 5px !important;
+			color: #5c6bc0;
+		}
+		
+		#time1,
+		#time2 {
+			width: 100px !important;
+		}
+		
+		.layui-table th {
+			font-weight: bold;
+			padding: 15px 5px !important;
+			border: 0 !important;
+			background: white;
+		}
+		
+		.main-left {
+			height: 100%;
+		}
+		
+		.main-content {
+			overflow-y: auto;
+			height: 100%;
+			flex: 1;
+			display: flex;
+			flex-direction: column;
+		}
+		
+		.main-header {
+			width: 100%;
+		}
+		
+		.main-body {
+			width: 100%;
+			flex: 1;
+		}
+		
+		.layui-select-title {
+			width: 100px;
+		}
+		
+		.customer .login {
+			display: none;
+			overflow-x: hidden;
+			overflow-y: auto;
+			background-clip: padding-box;
+			position: fixed;
+			top: 0;
+			right: 0;
+			bottom: 0;
+			left: 0;
+			opacity: 1;
+			z-index: 999;
+			outline: 0;
+			transition: opacity .15s linear;
+		}
+		
+		.customer .login .content {
+			transform: translate(0, 0);
+			width: 600px;
+			height: 100%;
+			margin: 30px auto 120px auto;
+			position: relative;
+			transition: transform .3s ease-out;
+		}
+		
+		.customer .login .content .contentBox {
+			border: 1px solid rgba(0, 0, 0, .2);
+			box-shadow: 0 5px 15px rgba(0, 0, 0, .5);
+			border-radius: 6px;
+			outline: 0;
+			background: white;
+		}
+		
+		.customer .login .content .contentBox .head span {
+			font-size: 22px;
+			color: black;
+		}
+		
+		.customer .login .content .contentBox .head button {
+			float: right;
+			border: 0;
+		}
+		
+		.customer .login .head {
+			padding: 15px 20px;
+		}
+		
+		.customer .login .body {
+			padding: 15px;
+		}
+		
+		.customer .login .layui-form .layui-input-block {
+			width: 70%;
+		}
+		
+		.customer .login .layui-form-label {
+			padding: 9px 5px !important;
+		}
+		
+		.layui-select-title {
+			width: 100%;
+		}
+		
+		.customer .isEmpty {
+			position: relative;
+			/*top: 100px;*/
+			margin: 0px auto;
+			box-shadow: rgba(0, 0, 0, 0.4) 0 0 5px;
+			border: 1px solid #bbb;
+			border-radius: 3px;
+			padding: 20px 0;
+			background-color: #fff;
+			text-align: center;
+			width: 298px;
+			display: none;
+		}
+		.changeC {
+			display: none;
+			padding-right: 17px;
+			position: fixed;
+			top: 0;
+			right: 0;
+			bottom: 0;
+			left: 0;
+			transition: opacity .15s linear;
+			z-index: 9999;
+		}
+		
+		.changeC .changeContent {
+			transform: translate(0, 0);
+			transition: transform .3s ease-out;
+			display: flex;
+			margin: 0px auto;
+			margin-top: 150px;
+			justify-content: center;
+			align-content: center;
+			width: 600px;
+			height: 100%;
+			position: relative;
+		}
+		
+		.changeC .changeContent .changeContentBox {
+			width: 600px;
+			height: 227px;
+			box-shadow: 0 5px 15px rgba(0, 0, 0, .5);
+			position: relative;
+			background-color: #fff;
+			background-clip: padding-box;
+			border: 1px solid rgba(0, 0, 0, .2);
+			border-radius: 5px;
+			padding: 5px 0 10px 5px;
+		}
+		
+		.changeC .changeContent .changeContentBox div {}
+		
+		.changeC .changeContent .changeContentBox form {}
+		
+		.changeC .changeContent .changeContentBox .changeContentBoxHead {
+			font-size: 20px;
+			color: black;
+			padding: 15px 20px;
+		}
+		
+		.changeC .changeContent .changeContentBox .changeContentBoxHead button {
+			border: 0;
+			float: right;
+		}
+		
+		.changeC .changeContent .changeContentBox .layui-input-block {
+			margin-left: 20px !important;
+		}
+		
+		.changeC .changeContent .changeContentBox form label {
+			width: 100px;
+			margin-bottom: 10px;
+			padding: 0;
+			text-align: left;
+		}
+		
+		.changeC .changeContent .changeContentBox form input {
+			width: 95%;
+			margin-bottom: 30px;
+		}
+		
+		.changeC .changeContent .changeContentBox form i {
+			right: 50px;
+			top: 60%;
+		}
+		
+		.changeC .changeContent .changeContentBox form select div {
+			width: 200px;
+		}
+		
+		.changeC .changeContent .changeContentBox .layui-form-item div {
+			padding-left: 400px;
+		}
+	</style>
+
+	<body>
+		<div class="main-left">
+			<%- include("./left.ejs") %>
+		</div>
+		<div class="main-content">
+			<div class="main-header">
+				<%- include("./head.ejs") %>
+			</div>
+			<div class="main-body">
+				<div class="customer">
+					<div class="head">
+						<div class="layui-tab layui-tab-brief" lay-filter="docDemoTabBrief">
+							<ul class="layui-tab-title">
+								<li class="layui-this">全部客户</li>
+								<li>我的客户</li>
+								<li>共享给我的客户</li>
+								<li>我共享的客户</li>
+								<button id="createCstomer" class="right layui-btn layui-btn-sm layui-bg-green">创建客户</button>
+								<button class="right layui-btn layui-btn-sm layui-bg-blue">撞单查询</button>
+							</ul>
+							<div class="layui-tab-content"></div>
+						</div>
+					</div>
+
+					<div class="screen">
+						<form action="" class="layui-form">
+							<div class="layui-form-item">
+								<div>
+									<label>状态</label>
+									<div class="layui-inline">
+										<select name="city" lay-verify="required">
+											<option value="">全部</option>
+											<option value="0">未成交</option>
+											<option value="1">已成交</option>
+											<option value="2">即将转移到公海</option>
+										</select>
+									</div>
+									<label>分类</label>
+									<div class="layui-inline">
+										<select onchange="xxx()" id="customerStyle" name="city" lay-verify="required" lay-filter="city">
+											<option value="">全部</option>
+											<option value="未分类">未分类</option>
+											<option value="A">A（重点客户）</option>
+											<option value="B">B（普通客户）</option>
+											<option value="C">C（低价值客户）</option>
+										</select>
+									</div>
+									<label>标签</label>
+									<div class="layui-inline">
+										<select name="city" lay-verify="required">
+											<option value="">请选择标签</option>
+											<option value="">无标签</option>
+										</select>
+									</div>
+									<label>下次联系时间</label>
+									<div class="layui-inline">
+										<input id="time1" type="text" name="title" required lay-verify="required" autocomplete="off" class="layui-input">
+									</div>
+									<label id="and">—</label>
+									<div class="layui-inline">
+										<input id="time2" type="text" name="title" required lay-verify="required" autocomplete="off" class="layui-input">
+
+									</div>
+								</div>
+
+								<label>负责人</label>
+								<div class="layui-inline">
+									<select name="city" lay-verify="required" lay-filter="fuze" id="addFuze">
+										<option value="">请选择标签</option>
+										<% for(var i=0;i<data.length;i++){ %>
+										<option value="<%= data[i].fuze %>"><%= data[i].fuze %></option>
+										<% } %>
+									</select>
+								</div>
+								<a href="javascript:void(0);" id="search">搜索</a>
+								<a href="javascript:void(0);" id="seniorSearch">高级搜索</a>
+							</div>
+
+						</form>
+
+					</div>
+					<hr>
+					<div class="forms">
+						<div>
+
+							<form action="" class="layui-form">
+								<a href="javascript:void(0);" class="layui-btn layui-btn-sm">转移客户</a>
+								<a href="javascript:void(0);" class="layui-btn layui-btn-sm">转移到公海</a>
+								<a href="javascript:void(0);" class="layui-btn layui-btn-sm">共享客户</a>
+								<a href="javascript:void(0);" class="layui-btn layui-btn-sm" id="openChangeCustomer">修改分类</a>
+								<a href="javascript:void(0);" class="layui-btn layui-btn-sm">修改标签</a>
+								<a href="javascript:void(0);" class="layui-btn layui-btn-sm">设置下次联系时间</a>
+								<a href="javascript:void(0);" class="layui-btn layui-btn-sm">发短信</a>
+								<a href="javascript:void(0);" class="layui-btn layui-btn-sm" id="deleteCustomer">删除</a>
+								<div class="layui-inline">
+									<select name="city" lay-verify="required">
+										<option value="">客户名称</option>
+										<option value="0">省份</option>
+										<option value="1">城市</option>
+										<option value="2">手机</option>
+										<option value="3">座机</option>
+										<option value="4">QQ</option>
+										<option value="5">官网</option>
+										<option value="6">邮箱</option>
+									</select>
+								</div>
+								<div class="layui-inline" id="jiyiji">
+									<input type="text" name="title" required lay-verify="required" placeholder="检索..." autocomplete="off" class="layui-input">
+								</div>
+								<a href="javascript:void(0):" id="sousuo" class="layui-btn">搜索</a>
+								<a href="javascript:void(0):" class="layui-btn layui-btn-sm">导入</a>
+								<a href="javascript:void(0):" class="layui-btn layui-btn-sm">导出</a>
+								<a href="javascript:void(0):" class="layui-btn layui-btn-sm">显示列</a>
+
+							</form>
+						</div>           
+						<div class="tables">
+							<table class="layui-table">
+								<thead>
+									<tr>
+										<th class="layui-form"><input id="owner_all" type="checkbox" lay-skin="primary" lay-filter="owner_all">客户名称</th>
+										<th> <span>标签</span>负责人</th>
+										<th>客户类型</th>
+										<th>身份</th>
+										<th>城市</th>
+										<th>下次联系时间</th>
+										<th>创建时间</th>
+										<th>创建人</th>
+										<th>客户分配时间</th>
+										<th>最后联系时间</th>
+										<th>最后联系人</th>
+									</tr>
+									<div class="isEmpty">没有找到相关联系人</div>
+								</thead>
+								<tbody id="tbodyTd">
+									<% for(var i=0;i<data.length;i++){ %>
+									<tr>
+										<td class="layui-form"><input class="ownerCost" type="checkbox" lay-skin="primary" lay-filter="owner_one"><%= data[i].name %></td>
+										<td><%= data[i].fuze %></td>
+										<td><%= data[i].type %></td>
+										<td><%= data[i].identity %></td>
+										<td><%= data[i].city %></td>
+										<td>20190101</td>
+										<td><%= data[i].currentTime %></td>
+										<td><%= data[i].creator %></td>
+										<td>20181227</td>
+										<td>20181227</td>
+										<td>20181227</td>
+									</tr>
+									<% } %>
+								</tbody>
+							</table>
+						</div>
+					</div>
+
+					<div class="login">
+						<div class="content">
+							<div class="contentBox">
+								<div class="head">
+									<span>创建客户</span>
+									<button id="closeCreateBox" class="layui-btn layui-btn-primary layui-btn-sm"><i class="layui-icon layui-icon-close"></i></button>
+								</div>
+								<div class="body">
+									<form class="layui-form" action="">
+										<div class="layui-form-item">
+											<label class="layui-form-label">客户名称</label> 
+											<div class="layui-input-block">
+												<input type="text" required lay-verify="required" class="layui-input" name="customerName">
+											</div>
+										</div>
+										<div class="layui-form-item">
+											<label class="layui-form-label">负责人</label>
+											<div class="layui-input-block" id="addFuze">
+												<input type="text" lay-verify="required" placeholder="杨刚" class="layui-input" name="customerFuze">
+											</div>
+										</div>
+										<div class="layui-form-item">
+											<label class="layui-form-label">分类</label>
+											<div class="layui-input-block">
+												<select onchange="xxx()" id="customerStyle" require lay-verify="required" lay-filter="addCustomer" name="customerStyle">
+													<option value="">全部</option>
+													<option value="未分类">未分类</option>
+													<option value="A">A（重点客户）</option>
+													<option value="B">B（普通客户）</option>
+													<option value="C">C（低价值客户）</option>
+												</select>
+											</div>
+										</div>
+										<div class="layui-form-item">
+											<label class="layui-form-label">城市</label>
+											<div class="layui-input-block">
+												<input type="text" class="layui-input" name="customerCity">
+											</div>
+										</div>
+										<div class="layui-form-item">
+											<label class="layui-form-label">创建人</label>
+											<div class="layui-input-block">
+												<input type="text" class="layui-input" name="customerCreator">
+											</div>
+										</div>
+										<div class="layui-form-item">
+											<label class="layui-form-label">身份</label>
+											<div class="layui-input-block">
+												<input type="text" class="layui-input" name="customerIdentity">
+											</div>
+										</div>
+										<div class="layui-form-item">
+											<label class="layui-form-label">手机</label>
+											<div class="layui-input-block">
+												<input type="text" class="layui-input">
+											</div>
+										</div>
+										<div class="layui-form-item">
+											<label class="layui-form-label">简介</label>
+											<div class="layui-input-block">
+												<textarea placeholder="请输入内容" class="layui-textarea"></textarea>
+											</div>
+										</div>
+										<div class="layui-form-item">
+											<div class="layui-input-block">
+												<button type="submit" lay-submit="" class="layui-btn" lay-filter="sure">确定</button>
+												<button class="layui-btn layui-btn-primary">取消</button>
+											</div>
+										</div>
+									</form>
+								</div>
+							</div>
+						</div>
+					</div>
+					
+					<div class="changeC">
+						<div class="changeContent">
+							<div class="changeContentBox">
+								<div class="changeContentBoxHead">
+									<span>修改客户分类</span>
+									<button id="closeContentBoxHead" class="layui-btn layui-btn-primary layui-btn-sm"><i class="layui-icon layui-icon-close"></i></button>
+								</div>
+								<form action="" class="layui-form">
+									<div class="layui-input-block">
+										<label class="layui-form-label">客户分类</label>
+										<select id="changeT" name="changeCustomerType" lay-verify="required" lay-filter="changeCustomerType">
+											<option value="未分类">未分类</option>
+											<option value="A">A（重点客户）</option>
+											<option value="B">B（普通客户）</option>
+											<option value="C">C（低价值客户）</option>
+										</select>
+									</div>
+								</form>
+								<div class="layui-form-item">
+									<div class="layui-input-block">
+										<button class="layui-btn" id="changeCustomer">确定</button>
+										<button class="layui-btn layui-btn-primary" id="cancleChange">取消</button>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+				
+				</div>
+			</div>
+		</div>
+	</body>
+	<script src="../jquery.min.js"></script>
+	<script src="../lay/modules/layer.js"></script>
+	<script>
+		var tbodyTd = document.getElementById("tbodyTd").children;
+		window.onload = function() {
+			//创建客户弹出框
+			var createCstomer = document.getElementById("createCstomer");
+			createCstomer.onclick = function() {
+				document.getElementsByClassName("login")[0].style.display = "block";
+			}
+			var closeCreateBox = document.getElementById("closeCreateBox");
+			closeCreateBox.onclick = function() {
+				document.getElementsByClassName("login")[0].style.display = "none";
+			}
+			//打开修改分类弹出框
+			var openChangeCustomer = document.getElementById("openChangeCustomer");
+			openChangeCustomer.onclick = function() {
+				var isDoChange = false ;
+				for(var i=0;i<tbodyTd.length;i++){
+					var isChange = tbodyTd[i].children[0].children[0].checked;
+					isDoChange = isDoChange || isChange ;
+					if(isDoChange){
+						document.getElementsByClassName("changeC")[0].style.display = "block";
+					}
+				}
+			}
+			//关闭修改分类弹出框
+			var cancleChange = document.getElementById("cancleChange");
+			var closeContentBoxHead = document.getElementById("closeContentBoxHead");
+			closeContentBoxHead.onclick = function() {
+				document.getElementsByClassName("changeC")[0].style.display = "none";
+			}
+			cancleChange.onclick = function() {
+				document.getElementsByClassName("changeC")[0].style.display = "none";
+			}
+			
+			//判断数据列表是否为空。
+			function isEmpty(){
+				var isEmpty = document.getElementsByClassName("isEmpty")[0];
+					if(tbodyTd.length == 0) {
+						isEmpty.style.display = "block";
+					} else {
+						isEmpty.style.display = "none";
+					}	
+				}
+			isEmpty();
+
+		};
+		//修改分类操作
+		document.getElementById("changeCustomer").onclick = function() {
+			var getCustomerType = document.getElementById("changeT").value;
+			for(var i = 0; i < tbodyTd.length; i++) {
+				var isChecked = tbodyTd[i].querySelector("td input").checked;
+				if(isChecked) {
+					var changeName = tbodyTd[i].firstElementChild.innerText;
+					console.log(changeName);
+					$.post("/customer/changeCustomer", {
+						name: changeName,
+						type:getCustomerType
+					}, function(data) {
+					});
+						history.go(0);
+						history.go(0);
+				}
+			}
+			isEmpty();
+	};
+		//删除操作
+		document.getElementById("deleteCustomer").onclick = function() {
+			for(var i = 0; i < tbodyTd.length; i++) {
+				var isChecked = tbodyTd[i].querySelector("td input").checked;
+				if(isChecked) {
+					var deleteName = tbodyTd[i].firstElementChild.innerText;
+					$.post("/customer/deleteCustomer", {
+						name: deleteName
+					}, function(data) {});
+					history.go(0);
+					history.go(0);
+				}
+			}
+			isEmpty();
+		};
+		//删除重复负责人。
+		var addFuze = document.getElementById("addFuze");
+		console.log(addFuze);
+		var deleteRepeat = addFuze.children;
+		function addOptionSelect() {
+			for(var i = 1; i < deleteRepeat.length; i++) {
+				for(var j = i + 1; j < deleteRepeat.length; j++) {
+					if(deleteRepeat[i].value === deleteRepeat[j].value) {
+						addFuze.removeChild(deleteRepeat[j]);
+					}
+				}
+			}
+		}
+		addOptionSelect();
+
+		//注意：导航 依赖 element 模块，否则无法进行功能性操作
+		layui.use('element', function() {
+			var element = layui.element;
+
+			//…
+		});
+
+		layui.use(['form', 'layedit', 'laydate'], function() {
+			var form = layui.form;
+			var layer = layui.layer;
+			var layedit = layui.layedit;
+			//监听提交
+			form.on('submit(sure)', function(data) {
+				$.post("/customer/addCustomer", data.field, function(data) {});
+				history.go(0);
+			});
+
+			form.on('select(city)', function(data) {
+				var tbodyTd = document.getElementById("tbodyTd").children;
+				for(var i = 0; i < tbodyTd.length; i++) {
+					if(data.value == "") {
+						tbodyTd[i].classList.remove("hidden");
+					} else if(tbodyTd[i].children[2].innerHTML == data.value) {
+						tbodyTd[i].classList.remove("hidden");
+					} else {
+						tbodyTd[i].classList.add("hidden");
+					}
+				}
+			});
+			form.on('select(fuze)', function(data) {
+				var tbodyTd = document.getElementById("tbodyTd").children;
+				for(var i = 0; i < tbodyTd.length; i++) {
+					if(data.value == "") {
+						tbodyTd[i].classList.remove("hidden2");
+					} else if(tbodyTd[i].children[1].innerText == data.value) {
+						tbodyTd[i].classList.remove("hidden2");
+					} else {
+						tbodyTd[i].classList.add("hidden2");
+					}
+				}
+			});
+			//全选中
+			form.on('checkbox(owner_all)', function(data) {
+				var a = data.elem.checked;
+				if(a == true) {
+					$(".ownerCost").prop("checked", true);
+					form.render('checkbox');
+				} else {
+					$(".ownerCost").prop("checked", false);
+					form.render('checkbox');
+				}
+			});
+			//有一个未选中全选取消选中
+			form.on('checkbox(owner_one)', function(data) {
+				var item = $(".ownerCost");
+				var isTrue = true;
+				for(var i = 0; i < item.length; i++) {
+					if(item[i].checked == false) {
+						isTrue = false;
+						$("#owner_all").prop("checked", false);
+						form.render('checkbox');
+					}
+				}
+				if(isTrue) {
+					$("#owner_all").prop("checked", true);
+					form.render('checkbox');
+				}
+			});
+		});
+		layui.use('laydate', function() {
+			var laydate = layui.laydate;
+			//执行一个laydate实例
+			laydate.render({
+				elem: '#time1' //指定元素
+			});
+			laydate.render({
+				elem: '#time2' //指定元素
+			});
+		});
+	</script>
+
+</html>
