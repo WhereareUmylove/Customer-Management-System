@@ -29,7 +29,19 @@ exports.finddate = function(req, res) {
 	});
 }
 
+exports.showLogin = function(req,res){
+	res.render("login");
+}
+
+exports.showRegister = function(req,res){
+	res.render("register");
+}
+
 exports.showContact = function(req, res) {
+//	if(!req.session.phone){
+//	  return res.render("login",{err : ""});
+//	}
+	
 		User.find({}, function(err, data) { 
 
 		res.render("contact", {data:data});
@@ -71,6 +83,7 @@ exports.addCustomer = function(req, res) {
 
 
 exports.showCustomer = function(req, res) {	
+
 	MongoClient.connect(dburl, function(err, client) {
 		if(err) {
 			console.log("数据库链接失败！");
@@ -199,19 +212,21 @@ exports.deleteInfo = function(req, res) {
 }
 
 exports.showNote = function(req, res) {
-Pfuser.find({}, function(err, data) {
+    Pfuser.find({}, function(err, data) {
 		res.render("note", {
 			data: data
 		});
 	});
 }
 exports.showWorksheet = function(req, res) {
+	
 	Twfuser.find({}, function(err, data) {
 		res.render("worksheet", {data: data});
 	});
 	
 }
 exports.addWorksheet = function(req, res) {
+	
 	var form = new formidable.IncomingForm();
 	
 	form.parse(req, function(err, fields, files) {
@@ -227,6 +242,10 @@ exports.addWorksheet = function(req, res) {
 
 }
 
+
+exports.showNone = function(req, res) {
+	res.render("none");
+}
 
 
 
